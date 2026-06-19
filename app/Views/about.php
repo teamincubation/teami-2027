@@ -118,23 +118,36 @@
         </div>
         
         <div class="timeline">
-            <div class="timeline-item">
-                <div class="timeline-year">2015</div>
-                <div class="timeline-title">Foundation</div>
-                <div class="timeline-desc">Established as a volunteer group assisting community initiatives in Calicut.</div>
-            </div>
-            
-            <div class="timeline-item">
-                <div class="timeline-year">2020</div>
-                <div class="timeline-title">Skills Integration</div>
-                <div class="timeline-desc">Launched structured internship and mentoring programs in technology and management.</div>
-            </div>
-            
-            <div class="timeline-item">
-                <div class="timeline-year">2026</div>
-                <div class="timeline-title">Digital Transformation</div>
-                <div class="timeline-desc">Built a secure, centralized student evaluating and certificate verification portal.</div>
-            </div>
+            <?php if (!empty($milestones)): ?>
+                <?php foreach ($milestones as $item): ?>
+                    <div class="timeline-item">
+                        <div class="timeline-year"><?= htmlspecialchars($item['year']) ?></div>
+                        <div class="timeline-title"><?= htmlspecialchars($item['title']) ?></div>
+                        <div class="timeline-desc">
+                            <?= htmlspecialchars($item['description']) ?>
+                            <?php if (!empty($item['impact_stats'])): ?>
+                                <br><span style="display: inline-block; margin-top: 0.5rem; font-size: 0.85rem; font-weight: 600; color: var(--primary);"><i class="fa-solid fa-chart-line"></i> Impact: <?= htmlspecialchars($item['impact_stats']) ?></span>
+                            <?php endif; ?>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+            <?php else: ?>
+                <div class="timeline-item">
+                    <div class="timeline-year">2014</div>
+                    <div class="timeline-title">Genesis of Team Incubation</div>
+                    <div class="timeline-desc">Founded by a group of passionate psychology and academic professionals to guide students in higher education.</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-year">2018</div>
+                    <div class="timeline-title">Talking Audio Library</div>
+                    <div class="timeline-desc">Pioneered Happy Reading Campaign recording talking books for visually impaired students.</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-year">2026</div>
+                    <div class="timeline-title">Centralized Portal</div>
+                    <div class="timeline-desc">Built a secure student evaluation and certificate verification portal.</div>
+                </div>
+            <?php endif; ?>
         </div>
     </div>
 </div>

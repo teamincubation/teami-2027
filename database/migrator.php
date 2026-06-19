@@ -16,6 +16,50 @@ function isInstalled(string $lockFile): bool {
     return file_exists($lockFile);
 }
 
+// Helper to translate MySQL queries to SQLite format
+function translateMysqlToSqlite(string $sql): string {
+    // 0. Translate escaped single quotes to SQLite double-single quotes
+    $sql = str_replace("\\'", "''", $sql);
+    
+    // 1. Convert SET FOREIGN_KEY_CHECKS to PRAGMA
+    $sql = str_ireplace('SET FOREIGN_KEY_CHECKS = 0', 'PRAGMA foreign_keys = OFF', $sql);
+    $sql = str_ireplace('SET FOREIGN_KEY_CHECKS = 1', 'PRAGMA foreign_keys = ON', $sql);
+    
+    // 2. Remove MySQL table storage engine and collation settings
+    $sql = preg_replace('/\) ENGINE\s*=\s*InnoDB[^;]*/i', ')', $sql);
+    
+    // 3. Convert MySQL auto increment primary keys to SQLite style
+    $sql = preg_replace('/`id` INT[^,]*AUTO_INCREMENT[^,]*/i', '`id` INTEGER PRIMARY KEY AUTOINCREMENT', $sql);
+    $sql = preg_replace('/`id` INT PRIMARY KEY AUTO_INCREMENT/i', '`id` INTEGER PRIMARY KEY AUTOINCREMENT', $sql);
+    
+    // 4. Convert ENUM declarations to TEXT
+    $sql = preg_replace('/ENUM\s*\([^)]+\)/i', 'TEXT', $sql);
+    
+    // 5. Remove ON UPDATE CURRENT_TIMESTAMP modifier
+    $sql = str_ireplace('ON UPDATE CURRENT_TIMESTAMP', '', $sql);
+    
+    // 6. Strip out inline MySQL INDEX and KEY definitions from CREATE TABLE
+    $lines = explode("\n", $sql);
+    $cleanedLines = [];
+    foreach ($lines as $line) {
+        $trimmed = trim($line);
+        if (preg_match('/^INDEX\s/i', $trimmed) || preg_match('/^KEY\s/i', $trimmed)) {
+            continue;
+        }
+        if (preg_match('/^UNIQUE KEY\s+`?(\w+)`?\s*\(([^)]+)\)/i', $trimmed, $m)) {
+            $cleanedLines[] = "    UNIQUE (" . $m[2] . "),";
+            continue;
+        }
+        $cleanedLines[] = $line;
+    }
+    $sql = implode("\n", $cleanedLines);
+    
+    // Clean up trailing commas in column lists
+    $sql = preg_replace('/,\s*\)/s', "\n)", $sql);
+    
+    return $sql;
+}
+
 // Helper to execute SQL script
 function executeSqlFile(PDO $pdo, string $filePath): array {
     if (!file_exists($filePath)) {
@@ -23,6 +67,12 @@ function executeSqlFile(PDO $pdo, string $filePath): array {
     }
 
     $sql = file_get_contents($filePath);
+    
+    // Check if the connection driver is SQLite and translate if needed
+    $isSqlite = ($pdo->getAttribute(PDO::ATTR_DRIVER_NAME) === 'sqlite');
+    if ($isSqlite) {
+        $sql = translateMysqlToSqlite($sql);
+    }
     
     // Remove comments
     $sql = preg_replace('/--.*\n/', '', $sql);
@@ -62,6 +112,7 @@ if ($isCli) {
     echo "Enter Setup Secret: ";
     $handle = fopen("php://stdin", "r");
     $inputSecret = trim(fgets($handle));
+    $inputSecret = str_replace("\xef\xbb\xbf", '', $inputSecret);
     
     if ($inputSecret !== $envSecret) {
         echo "Error: Invalid Setup Secret.\n";
@@ -83,8 +134,34 @@ if ($isCli) {
     
     try {
         $dbConfig = require dirname(__DIR__) . '/config/database.php';
-        $dsn = "mysql:host={$dbConfig['host']};port={$dbConfig['port']};dbname={$dbConfig['database']};charset={$dbConfig['charset']}";
-        $pdo = new PDO($dsn, $dbConfig['username'], $dbConfig['password'], $dbConfig['options']);
+        $driver = $dbConfig['default'] ?? 'mysql';
+        if ($driver === 'mysql') {
+            $mysql = $dbConfig['connections']['mysql'];
+            $dsn = "mysql:host={$mysql['host']};port={$mysql['port']};dbname={$mysql['database']};charset={$mysql['charset']}";
+            try {
+                $pdo = new PDO($dsn, $mysql['username'], $mysql['password'], $dbConfig['options']);
+                $pdo->exec("SET time_zone = '+05:30'");
+            } catch (PDOException $e) {
+                if (config('app.env') === 'local') {
+                    $driver = 'sqlite';
+                } else {
+                    throw $e;
+                }
+            }
+        }
+        if ($driver === 'sqlite') {
+            $sqlite = $dbConfig['connections']['sqlite'];
+            $dbFile = $sqlite['database'];
+            $dir = dirname($dbFile);
+            if (!is_dir($dir)) {
+                @mkdir($dir, 0755, true);
+            }
+            $dsn = "sqlite:{$dbFile}";
+            $options = $dbConfig['options'] ?? [];
+            unset($options[PDO::MYSQL_ATTR_INIT_COMMAND]);
+            $pdo = new PDO($dsn, null, null, $options);
+            $pdo->exec("PRAGMA foreign_keys = ON;");
+        }
         
         echo "Running database schema creation...\n";
         $schemaRes = executeSqlFile($pdo, __DIR__ . '/schema.sql');
@@ -98,7 +175,7 @@ if ($isCli) {
         
         // Insert Admin User
         $passHash = password_hash($adminPass, PASSWORD_BCRYPT);
-        $stmt = $pdo->prepare("INSERT INTO users (email, password_hash, role_id, status, email_verified_at) VALUES (?, ?, 1, 'active', NOW())");
+        $stmt = $pdo->prepare("INSERT INTO users (email, password_hash, role_id, status, email_verified_at) VALUES (?, ?, 1, 'active', CURRENT_TIMESTAMP)");
         $stmt->execute([$adminEmail, $passHash]);
         $userId = $pdo->lastInsertId();
         
@@ -106,6 +183,10 @@ if ($isCli) {
         $stmtProf->execute([$userId, 'Super Administrator', $adminMobile]);
         
         // Write Lock File
+        $lockDir = dirname($lockFile);
+        if (!is_dir($lockDir)) {
+            @mkdir($lockDir, 0755, true);
+        }
         @file_put_contents($lockFile, "Installed on " . date('Y-m-d H:i:s'));
         echo "Installation completed successfully. Lock file written.\n";
         exit(0);
@@ -147,10 +228,34 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !$installationLocked) {
     if (empty($errors)) {
         try {
             $dbConfig = require dirname(__DIR__) . '/config/database.php';
-            $dsn = "mysql:host={$dbConfig['host']};port={$dbConfig['port']};dbname={$dbConfig['database']};charset={$dbConfig['charset']}";
-            
-            // Explicitly show connection message, without disclosing credentials
-            $pdo = new PDO($dsn, $dbConfig['username'], $dbConfig['password'], $dbConfig['options']);
+            $driver = $dbConfig['default'] ?? 'mysql';
+            if ($driver === 'mysql') {
+                $mysql = $dbConfig['connections']['mysql'];
+                $dsn = "mysql:host={$mysql['host']};port={$mysql['port']};dbname={$mysql['database']};charset={$mysql['charset']}";
+                try {
+                    $pdo = new PDO($dsn, $mysql['username'], $mysql['password'], $dbConfig['options']);
+                    $pdo->exec("SET time_zone = '+05:30'");
+                } catch (PDOException $e) {
+                    if (config('app.env') === 'local') {
+                        $driver = 'sqlite';
+                    } else {
+                        throw $e;
+                    }
+                }
+            }
+            if ($driver === 'sqlite') {
+                $sqlite = $dbConfig['connections']['sqlite'];
+                $dbFile = $sqlite['database'];
+                $dir = dirname($dbFile);
+                if (!is_dir($dir)) {
+                    @mkdir($dir, 0755, true);
+                }
+                $dsn = "sqlite:{$dbFile}";
+                $options = $dbConfig['options'] ?? [];
+                unset($options[PDO::MYSQL_ATTR_INIT_COMMAND]);
+                $pdo = new PDO($dsn, null, null, $options);
+                $pdo->exec("PRAGMA foreign_keys = ON;");
+            }
             
             // Execute schema
             $schemaRes = executeSqlFile($pdo, __DIR__ . '/schema.sql');
@@ -166,7 +271,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !$installationLocked) {
             
             // Create Admin Account (Super Admin has role_id = 1)
             $passHash = password_hash($adminPass, PASSWORD_BCRYPT);
-            $stmt = $pdo->prepare("INSERT INTO users (email, password_hash, role_id, status, email_verified_at) VALUES (?, ?, 1, 'active', NOW())");
+            $stmt = $pdo->prepare("INSERT INTO users (email, password_hash, role_id, status, email_verified_at) VALUES (?, ?, 1, 'active', CURRENT_TIMESTAMP)");
             $stmt->execute([$adminEmail, $passHash]);
             $userId = $pdo->lastInsertId();
             
@@ -174,6 +279,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !$installationLocked) {
             $stmtProf->execute([$userId, 'Super Administrator', $adminMobile]);
             
             // Write locking file
+            $lockDir = dirname($lockFile);
+            if (!is_dir($lockDir)) {
+                @mkdir($lockDir, 0755, true);
+            }
             @file_put_contents($lockFile, "Installed via web interface on " . date('Y-m-d H:i:s'));
             $successMsg = "Database schema initialized, seed data loaded, and initial Super Admin created successfully! The installer is now locked.";
             $installationLocked = true;

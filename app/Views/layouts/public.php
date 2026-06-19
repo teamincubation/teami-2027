@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?= htmlspecialchars($title ?? 'Team Incubation') ?></title>
     
+    <!-- Favicon -->
+    <link rel="icon" type="image/jpeg" href="/favicon.jpg">
+    
     <!-- Premium Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -13,19 +16,29 @@
     <!-- Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
+    <style>
         :root {
-            --bg-base: #f8fafc;
-            --bg-surface: rgba(255, 255, 255, 0.85);
-            --bg-card: #ffffff;
-            --primary: #059669;
-            --primary-glow: rgba(5, 150, 105, 0.06);
-            --primary-hover: #10b981;
-            --secondary: #0891b2;
-            --text-main: #0f172a;
-            --text-muted: #475569;
-            --border-glow: rgba(0, 0, 0, 0.08);
-            --border-active: rgba(5, 150, 105, 0.2);
+            --bg-base: #f5fafd; /* Ice white background */
+            --bg-surface: rgba(255, 255, 255, 0.85); /* Glassmorphic white */
+            --bg-card: #ffffff; /* Pure white */
+            --primary: #26b5d1; /* Turquoise primary */
+            --primary-glow: rgba(38, 181, 209, 0.06);
+            --primary-hover: #1da3bd;
+            --secondary: #0ea5e9; /* Sky blue secondary */
+            --text-main: #1e293b; /* Slate-800 */
+            --text-muted: #577399; /* Steel blue muted text */
+            --border-glow: rgba(38, 181, 209, 0.12); /* Soft turquoise borders */
+            --border-active: rgba(38, 181, 209, 0.35);
             --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+            /* Pastel Color Palette */
+            --pastel-blue: #e0f2fe;    /* Sky blue pastel */
+            --pastel-teal: #e6fcff;    /* Cyan pastel */
+            --pastel-green: #e6fcf5;   /* Mint pastel */
+            --pastel-yellow: #fefcbf;  /* Cream yellow pastel */
+            --pastel-orange: #fff1e6;  /* Peach pastel */
+            --pastel-purple: #faf5ff;  /* Lavender pastel */
+            --pastel-pink: #fff5f7;    /* Rose pastel */
         }
 
         * {
@@ -44,8 +57,8 @@
             display: flex;
             flex-direction: column;
             background-image: 
-                radial-gradient(at 0% 0%, rgba(5, 150, 105, 0.03) 0px, transparent 50%),
-                radial-gradient(at 100% 100%, rgba(8, 145, 178, 0.03) 0px, transparent 50%);
+                radial-gradient(at 0% 0%, rgba(38, 181, 209, 0.05) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(14, 165, 233, 0.05) 0px, transparent 50%);
         }
 
         h1, h2, h3, h4, h5, h6 {
@@ -144,13 +157,13 @@
             padding: 0.6rem 1.25rem;
             border-radius: 8px;
             font-size: 0.95rem;
-            box-shadow: 0 4px 15px rgba(5, 150, 105, 0.2);
+            box-shadow: 0 4px 15px rgba(38, 181, 209, 0.25);
             transition: var(--transition);
         }
 
         .btn-cta:hover {
             transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(5, 150, 105, 0.35);
+            box-shadow: 0 6px 20px rgba(38, 181, 209, 0.45);
             filter: brightness(1.1);
         }
 
@@ -283,8 +296,7 @@
     <header>
         <div class="nav-container">
             <a href="/" class="logo">
-                <i class="fa-solid fa-seedling logo-icon"></i>
-                <span class="logo-text">Team<span>Incubation</span></span>
+                <img src="/images/logo.png" alt="Team Incubation Logo" style="height: 52px; width: auto; display: block;">
             </a>
             
             <ul class="nav-menu">
@@ -304,9 +316,8 @@
     <footer>
         <div class="footer-container">
             <div class="footer-brand">
-                <a href="/" class="logo">
-                    <i class="fa-solid fa-seedling logo-icon"></i>
-                    <span class="logo-text">Team<span>Incubation</span></span>
+                <a href="/" class="logo" style="margin-bottom: 1.5rem; display: inline-block;">
+                    <img src="/images/logo.png" alt="Team Incubation Logo" style="height: 44px; width: auto; display: block;">
                 </a>
                 <p>Nurturing skills, building leadership, and driving positive social changes through volunteering and professional internships.</p>
                 <div class="footer-socials">

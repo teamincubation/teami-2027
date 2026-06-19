@@ -608,4 +608,21 @@ CREATE TABLE IF NOT EXISTS `migrations_history` (
     `executed_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+-- 37. Login Attempts Table (Rate Limiting)
+CREATE TABLE IF NOT EXISTS `login_attempts` (
+    `id` INT AUTO_INCREMENT PRIMARY KEY,
+    `ip_address` VARCHAR(45) NOT NULL,
+    `email` VARCHAR(191) NOT NULL,
+    `attempted_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- 38. Certificate Verification Logs Table
+CREATE TABLE IF NOT EXISTS `certificate_verification_logs` (
+    `id` INT AUTO_INCREMENT PRIMARY KEY,
+    `ip_address` VARCHAR(45) NOT NULL,
+    `certificate_number` VARCHAR(100) NOT NULL,
+    `verified_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    `status` ENUM('found', 'not_found') NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
 SET FOREIGN_KEY_CHECKS = 1;

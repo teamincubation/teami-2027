@@ -19,13 +19,41 @@ abstract class BaseModel {
 
         try {
             $config = require dirname(dirname(__DIR__)) . '/config/database.php';
-            $dsn = "mysql:host={$config['host']};port={$config['port']};dbname={$config['database']};charset={$config['charset']}";
+            $driver = $config['default'] ?? 'mysql';
             
-            self::$db = new PDO($dsn, $config['username'], $config['password'], $config['options']);
+            if ($driver === 'mysql') {
+                $mysql = $config['connections']['mysql'];
+                $dsn = "mysql:host={$mysql['host']};port={$mysql['port']};dbname={$mysql['database']};charset={$mysql['charset']}";
+                try {
+                    self::$db = new PDO($dsn, $mysql['username'], $mysql['password'], $config['options']);
+                    self::$db->exec("SET time_zone = '+05:30'");
+                } catch (PDOException $e) {
+                    if (config('app.env') === 'local') {
+                        $driver = 'sqlite';
+                    } else {
+                        throw $e;
+                    }
+                }
+            }
+            
+            if ($driver === 'sqlite') {
+                $sqlite = $config['connections']['sqlite'];
+                $dbFile = $sqlite['database'];
+                $dir = dirname($dbFile);
+                if (!is_dir($dir)) {
+                    @mkdir($dir, 0755, true);
+                }
+                $dsn = "sqlite:{$dbFile}";
+                $options = $config['options'] ?? [];
+                unset($options[PDO::MYSQL_ATTR_INIT_COMMAND]);
+                self::$db = new PDO($dsn, null, null, $options);
+                self::$db->exec("PRAGMA foreign_keys = ON;");
+            }
+            
             return self::$db;
         } catch (PDOException $e) {
             logMessage('CRITICAL', "Database connection failed: " . $e->getMessage());
-            throw new Exception("Database connection failure. Please review server log.");
+            throw new Exception("Database connection failure: " . $e->getMessage());
         }
     }
 

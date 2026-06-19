@@ -219,7 +219,7 @@ class AuthService extends BaseModel {
         $tokenHash = hash('sha256', $rawToken);
         $user = $this->selectOne(
             "SELECT id FROM users 
-             WHERE reset_token_hash = ? AND reset_token_expires_at > NOW()", 
+             WHERE reset_token_hash = ? AND reset_token_expires_at > CURRENT_TIMESTAMP", 
             [$tokenHash]
         );
 
@@ -288,7 +288,7 @@ class AuthService extends BaseModel {
              FROM remember_tokens r 
              JOIN users u ON r.user_id = u.id 
              JOIN roles rl ON u.role_id = rl.id
-             WHERE r.token_hash = ? AND r.expires_at > NOW() AND u.deleted_at IS NULL", 
+             WHERE r.token_hash = ? AND r.expires_at > CURRENT_TIMESTAMP AND u.deleted_at IS NULL", 
             [$tokenHash]
         );
 

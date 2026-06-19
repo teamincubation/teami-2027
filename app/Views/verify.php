@@ -18,7 +18,7 @@
         border: 1px solid var(--border-glow);
         border-radius: 16px;
         padding: 3rem;
-        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.04);
+        box-shadow: 0 15px 35px rgba(38, 181, 209, 0.03);
     }
 
     .verify-title {
@@ -65,7 +65,7 @@
         outline: none;
         border-color: var(--primary);
         background: #ffffff;
-        box-shadow: 0 0 10px rgba(5, 150, 105, 0.1);
+        box-shadow: 0 0 10px rgba(38, 181, 209, 0.15);
     }
 
     .btn-verify {
@@ -80,17 +80,17 @@
         cursor: pointer;
         transition: var(--transition);
         white-space: nowrap;
-        box-shadow: 0 4px 12px rgba(5, 150, 105, 0.15);
+        box-shadow: 0 4px 12px rgba(38, 181, 209, 0.2);
     }
 
     .btn-verify:hover {
         transform: translateY(-1px);
         filter: brightness(1.1);
-        box-shadow: 0 4px 15px rgba(5, 150, 105, 0.3);
+        box-shadow: 0 4px 15px rgba(38, 181, 209, 0.4);
     }
 
     .sample-codes {
-        background: rgba(0, 0, 0, 0.02);
+        background: rgba(38, 181, 209, 0.02);
         border: 1px dashed var(--border-glow);
         border-radius: 8px;
         padding: 1rem;
@@ -101,7 +101,7 @@
 
     .sample-code-badge {
         display: inline-block;
-        background: rgba(0, 0, 0, 0.04);
+        background: rgba(38, 181, 209, 0.06);
         border: 1px solid var(--border-glow);
         padding: 0.2rem 0.6rem;
         border-radius: 4px;
@@ -113,7 +113,7 @@
     }
 
     .sample-code-badge:hover {
-        background: var(--primary-glow);
+        background: var(--pastel-teal);
         border-color: var(--primary);
         color: var(--primary);
     }
@@ -121,13 +121,13 @@
     /* Result Card */
     .result-card {
         margin-top: 3rem;
-        background: rgba(5, 150, 105, 0.02);
+        background: var(--pastel-teal);
         border: 1px solid var(--border-active);
         border-radius: 12px;
         padding: 2.5rem;
         position: relative;
         overflow: hidden;
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.01);
+        box-shadow: 0 4px 20px rgba(38, 181, 209, 0.05);
     }
 
     .result-card::before {
@@ -137,7 +137,7 @@
         right: 0;
         width: 100px;
         height: 100px;
-        background: linear-gradient(135deg, transparent 50%, rgba(5, 150, 105, 0.05) 50%);
+        background: linear-gradient(135deg, transparent 50%, rgba(38, 181, 209, 0.06) 50%);
         border-top-right-radius: 12px;
     }
 
@@ -161,8 +161,8 @@
         display: inline-flex;
         align-items: center;
         gap: 0.5rem;
-        background: rgba(5, 150, 105, 0.08);
-        color: var(--primary);
+        background: rgba(255, 255, 255, 0.6);
+        color: var(--primary-dark);
         padding: 0.5rem 1rem;
         border-radius: 99px;
         font-size: 0.85rem;
@@ -242,7 +242,7 @@
                     <div class="result-header">
                         <div>
                             <h3 style="font-size: 1.5rem; color:var(--text-main); font-family:'Outfit', sans-serif;"><?= htmlspecialchars($result['name']) ?></h3>
-                            <p style="color: var(--primary); font-weight: 500; font-size: 0.95rem; margin-top: 0.25rem;">
+                            <p style="color: var(--primary-dark); font-weight: 600; font-size: 0.95rem; margin-top: 0.25rem;">
                                 <i class="fa-solid fa-award" style="margin-right: 0.4rem;"></i><?= htmlspecialchars($result['type']) ?>
                             </p>
                         </div>

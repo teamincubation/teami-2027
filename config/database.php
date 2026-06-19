@@ -1,13 +1,23 @@
 <?php
 
 return [
-    'host' => $_ENV['DB_HOST'] ?? '127.0.0.1',
-    'port' => $_ENV['DB_PORT'] ?? '3306',
-    'database' => $_ENV['DB_NAME'] ?? 'u806388046_default',
-    'username' => $_ENV['DB_USER'] ?? 'root',
-    'password' => $_ENV['DB_PASS'] ?? '',
-    'charset' => 'utf8mb4',
-    'collation' => 'utf8mb4_unicode_ci',
+    'default' => $_ENV['DB_CONNECTION'] ?? 'mysql',
+    
+    'connections' => [
+        'mysql' => [
+            'host' => $_ENV['DB_HOST'] ?? '127.0.0.1',
+            'port' => $_ENV['DB_PORT'] ?? '3306',
+            'database' => $_ENV['DB_NAME'] ?? 'u806388046_default',
+            'username' => $_ENV['DB_USER'] ?? 'root',
+            'password' => $_ENV['DB_PASS'] ?? '',
+            'charset' => 'utf8mb4',
+            'collation' => 'utf8mb4_unicode_ci',
+        ],
+        'sqlite' => [
+            'database' => $_ENV['DB_SQLITE_DATABASE'] ?? dirname(__DIR__) . '/storage/app/database.sqlite',
+        ]
+    ],
+    
     'options' => [
         PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
         PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,

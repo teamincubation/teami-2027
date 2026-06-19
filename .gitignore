@@ -18,3 +18,11 @@ vendor/
 Thumbs.db
 ehthumbs.db
 Desktop.ini
+
+# SQLite databases and persistent upload folders
+storage/app/database.sqlite
+storage/app/banners/
+storage/app/projects/
+storage/app/certificates/
+storage/app/resumes/
+storage/app/uploads/

@@ -58,7 +58,7 @@ if (!function_exists('redirect')) {
  * Get or set session key values.
  */
 if (!function_exists('session')) {
-    function session(string $key = null, $value = null) {
+    function session(?string $key = null, $value = null) {
         if (session_status() === PHP_SESSION_NONE) {
             session_start();
         }
