@@ -50,4 +50,65 @@ $router->get('/admin/projects/edit/{id}', 'Admin\ProjectController@edit', [\App\
 $router->post('/admin/projects/edit/{id}', 'Admin\ProjectController@update', [\App\Middleware\AuthMiddleware::class]);
 $router->post('/admin/projects/delete/{id}', 'Admin\ProjectController@delete', [\App\Middleware\AuthMiddleware::class]);
 
+// Events CRUD Routes
+$router->get('/admin/events', 'Admin\EventController@index', [\App\Middleware\AuthMiddleware::class]);
+$router->get('/admin/events/create', 'Admin\EventController@create', [\App\Middleware\AuthMiddleware::class]);
+$router->post('/admin/events/create', 'Admin\EventController@store', [\App\Middleware\AuthMiddleware::class]);
+$router->get('/admin/events/edit/{id}', 'Admin\EventController@edit', [\App\Middleware\AuthMiddleware::class]);
+$router->post('/admin/events/edit/{id}', 'Admin\EventController@update', [\App\Middleware\AuthMiddleware::class]);
+$router->post('/admin/events/delete/{id}', 'Admin\EventController@delete', [\App\Middleware\AuthMiddleware::class]);
+
+// Campaigns CRUD Routes
+$router->get('/admin/campaigns', 'Admin\CampaignController@index', [\App\Middleware\AuthMiddleware::class]);
+$router->get('/admin/campaigns/create', 'Admin\CampaignController@create', [\App\Middleware\AuthMiddleware::class]);
+$router->post('/admin/campaigns/create', 'Admin\CampaignController@store', [\App\Middleware\AuthMiddleware::class]);
+$router->get('/admin/campaigns/edit/{id}', 'Admin\CampaignController@edit', [\App\Middleware\AuthMiddleware::class]);
+$router->post('/admin/campaigns/edit/{id}', 'Admin\CampaignController@update', [\App\Middleware\AuthMiddleware::class]);
+$router->post('/admin/campaigns/delete/{id}', 'Admin\CampaignController@delete', [\App\Middleware\AuthMiddleware::class]);
+
+// Partners CRUD Routes
+$router->get('/admin/partners', 'Admin\PartnerController@index', [\App\Middleware\AuthMiddleware::class]);
+$router->get('/admin/partners/create', 'Admin\PartnerController@create', [\App\Middleware\AuthMiddleware::class]);
+$router->post('/admin/partners/create', 'Admin\PartnerController@store', [\App\Middleware\AuthMiddleware::class]);
+$router->get('/admin/partners/edit/{id}', 'Admin\PartnerController@edit', [\App\Middleware\AuthMiddleware::class]);
+$router->post('/admin/partners/edit/{id}', 'Admin\PartnerController@update', [\App\Middleware\AuthMiddleware::class]);
+$router->post('/admin/partners/delete/{id}', 'Admin\PartnerController@delete', [\App\Middleware\AuthMiddleware::class]);
+
+// Form Builder Routes
+$router->get('/admin/forms', 'Admin\FormController@index', [\App\Middleware\AuthMiddleware::class]);
+$router->get('/admin/forms/event/{id}', 'Admin\FormController@eventQuestions', [\App\Middleware\AuthMiddleware::class]);
+$router->post('/admin/forms/event/{id}', 'Admin\FormController@saveEventQuestions', [\App\Middleware\AuthMiddleware::class]);
+$router->get('/admin/forms/internship/{id}', 'Admin\FormController@internshipQuestions', [\App\Middleware\AuthMiddleware::class]);
+$router->post('/admin/forms/internship/{id}', 'Admin\FormController@saveInternshipQuestions', [\App\Middleware\AuthMiddleware::class]);
+
+// Incubants Portal Routes
+$router->get('/admin/incubants', 'Admin\IncubantController@index', [\App\Middleware\AuthMiddleware::class]);
+$router->get('/admin/incubants/view-internship/{id}', 'Admin\IncubantController@viewInternship', [\App\Middleware\AuthMiddleware::class]);
+$router->get('/admin/incubants/view-volunteer/{id}', 'Admin\IncubantController@viewVolunteer', [\App\Middleware\AuthMiddleware::class]);
+$router->post('/admin/incubants/status-internship/{id}', 'Admin\IncubantController@statusInternship', [\App\Middleware\AuthMiddleware::class]);
+$router->post('/admin/incubants/status-volunteer/{id}', 'Admin\IncubantController@statusVolunteer', [\App\Middleware\AuthMiddleware::class]);
+
+// Certificates CRUD Routes
+$router->get('/admin/certificates', 'Admin\CertificateAdminController@index', [\App\Middleware\AuthMiddleware::class]);
+$router->get('/admin/certificates/create', 'Admin\CertificateAdminController@create', [\App\Middleware\AuthMiddleware::class]);
+$router->post('/admin/certificates/create', 'Admin\CertificateAdminController@store', [\App\Middleware\AuthMiddleware::class]);
+$router->get('/admin/certificates/edit/{id}', 'Admin\CertificateAdminController@edit', [\App\Middleware\AuthMiddleware::class]);
+$router->post('/admin/certificates/edit/{id}', 'Admin\CertificateAdminController@update', [\App\Middleware\AuthMiddleware::class]);
+$router->post('/admin/certificates/delete/{id}', 'Admin\CertificateAdminController@delete', [\App\Middleware\AuthMiddleware::class]);
+$router->get('/admin/certificates/import', 'Admin\CertificateAdminController@importForm', [\App\Middleware\AuthMiddleware::class]);
+$router->post('/admin/certificates/import', 'Admin\CertificateAdminController@import', [\App\Middleware\AuthMiddleware::class]);
+
+// Enquiries Routes
+$router->get('/admin/enquiries', 'Admin\EnquiryController@index', [\App\Middleware\AuthMiddleware::class]);
+$router->get('/admin/enquiries/view/{id}', 'Admin\EnquiryController@view', [\App\Middleware\AuthMiddleware::class]);
+$router->post('/admin/enquiries/reply/{id}', 'Admin\EnquiryController@reply', [\App\Middleware\AuthMiddleware::class]);
+$router->post('/admin/enquiries/delete/{id}', 'Admin\EnquiryController@delete', [\App\Middleware\AuthMiddleware::class]);
+
+// Subscribers Routes
+$router->get('/admin/subscribers', 'Admin\SubscriberController@index', [\App\Middleware\AuthMiddleware::class]);
+$router->post('/admin/subscribers/delete/{id}', 'Admin\SubscriberController@delete', [\App\Middleware\AuthMiddleware::class]);
+
+// Audit Logs Routes
+$router->get('/admin/audit-logs', 'Admin\AuditLogController@index', [\App\Middleware\AuthMiddleware::class]);
+
 return $router;

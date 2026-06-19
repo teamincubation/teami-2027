@@ -49,28 +49,30 @@ class CertificateController extends BaseController {
             $error = 'Please enter a valid certificate code.';
         } else {
             try {
-                // Attempt to connect to local database
-                $dbConfig = require dirname(dirname(__DIR__)) . '/config/database.php';
-                $dsn = "mysql:host={$dbConfig['host']};port={$dbConfig['port']};dbname={$dbConfig['database']};charset={$dbConfig['charset']}";
-                $pdo = new PDO($dsn, $dbConfig['username'], $dbConfig['password'], [
-                    PDO::ATTR_TIMEOUT => 2, // Low timeout to fallback fast if offline
-                    PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
-                ]);
+                $pdo = \App\Models\BaseModel::getConnection();
 
-                // Query database (assuming certificates table exist)
-                $stmt = $pdo->prepare("SELECT * FROM certificates WHERE code = ? LIMIT 1");
-                $stmt->execute([$code]);
+                $searchKey = preg_replace('/[^A-Za-z0-9]/', '', $code);
+
+                $stmt = $pdo->prepare("
+                    SELECT c.*, ct.name as type_name 
+                    FROM certificates c 
+                    JOIN certificate_types ct ON c.type_id = ct.id 
+                    WHERE c.search_key = ? AND c.status = 'Active' 
+                    LIMIT 1
+                ");
+                $stmt->execute([$searchKey]);
                 $cert = $stmt->fetch(PDO::FETCH_ASSOC);
 
                 if ($cert) {
+                    $meta = !empty($cert['metadata']) ? json_decode($cert['metadata'], true) : [];
                     $result = [
-                        'name' => $cert['recipient_name'],
-                        'type' => $cert['program_type'],
-                        'duration' => $cert['duration_string'],
+                        'name' => $cert['holder_name'],
+                        'type' => $cert['type_name'],
+                        'duration' => $cert['associated_programme'] ?? 'Ongoing',
                         'status' => 'Completed & Verified',
                         'issued_at' => $cert['issued_date'],
-                        'grade' => $cert['evaluation_grade'],
-                        'description' => $cert['remarks'] ?? ''
+                        'grade' => $meta['grade'] ?? 'Outstanding',
+                        'description' => $meta['remarks'] ?? 'Verified credential registry.'
                     ];
                 } else {
                     // Not found in database, check mock registry
@@ -88,7 +90,7 @@ class CertificateController extends BaseController {
                     $result = $this->mockRegistry[$code];
                     $isMocked = true;
                 } else {
-                    $error = 'Could not establish database connection, and code is not in mock registry. (Error: ' . $e->getMessage() . ')';
+                    $error = 'Could not query database registry, and code is not in mock registry. (Error: ' . $e->getMessage() . ')';
                 }
             }
         }
