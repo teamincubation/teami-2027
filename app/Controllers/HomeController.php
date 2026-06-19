@@ -70,6 +70,31 @@ class HomeController extends BaseController {
             return;
         }
 
+        // Read existing .env to preserve manually configured SMTP or Google OAuth keys
+        $existingEnv = [];
+        $envPath = dirname(dirname(__DIR__)) . '/.env';
+        if (file_exists($envPath)) {
+            $lines = file($envPath, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+            foreach ($lines as $line) {
+                $line = trim($line);
+                if (empty($line) || strpos($line, '#') === 0) continue;
+                $parts = explode('=', $line, 2);
+                if (count($parts) === 2) {
+                    $key = trim($parts[0]);
+                    $val = trim($parts[1]);
+                    // Strip enclosing quotes if present
+                    $val = trim($val, '"\'');
+                    $existingEnv[$key] = $val;
+                }
+            }
+        }
+
+        $mailUser = $existingEnv['MAIL_USER'] ?? 'office@teamincubation.in';
+        $mailPass = $existingEnv['MAIL_PASS'] ?? 'smtp_password_here';
+        $googleClientId = $existingEnv['GOOGLE_CLIENT_ID'] ?? 'google_client_id_here';
+        $googleClientSecret = $existingEnv['GOOGLE_CLIENT_SECRET'] ?? 'google_client_secret_here';
+        $googleRedirectUrl = $existingEnv['GOOGLE_REDIRECT_URL'] ?? 'https://teamincubation.in/auth/google/callback';
+
         $envContent = <<<ENV
 # App Configuration
 APP_NAME="Team Incubation"
@@ -90,15 +115,19 @@ DB_PASS='{$successfulPassword}'
 MAIL_HOST=smtp.hostinger.com
 MAIL_PORT=465
 MAIL_ENCRYPTION=ssl
-MAIL_USER=office@teamincubation.in
-MAIL_PASS=smtp_password_here
-MAIL_FROM_ADDRESS=office@teamincubation.in
+MAIL_USER="{$mailUser}"
+MAIL_PASS="{$mailPass}"
+MAIL_FROM_ADDRESS="{$mailUser}"
 MAIL_FROM_NAME="Team Incubation"
+
+# Google OAuth Credentials
+GOOGLE_CLIENT_ID="{$googleClientId}"
+GOOGLE_CLIENT_SECRET="{$googleClientSecret}"
+GOOGLE_REDIRECT_URL="{$googleRedirectUrl}"
 ENV;
 
-        $envPath = dirname(dirname(__DIR__)) . '/.env';
         file_put_contents($envPath, $envContent);
-        echo "<h3>✅ .env file created successfully!</h3>";
+        echo "<h3>✅ .env file created/updated successfully!</h3>";
 
         try {
             
