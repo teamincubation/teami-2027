@@ -135,9 +135,14 @@ class AuthController extends BaseController {
             $this->redirect('/auth/forgot-password');
         }
 
-        $this->authService->forgotPassword($email);
+        $token = $this->authService->forgotPassword($email);
         
-        $_SESSION['flash_success'] = "If that email is in our database, we have sent a password reset link to it.";
+        if ($token) {
+            $resetLink = rtrim(config('app.url'), '/') . '/reset-password?token=' . $token;
+            $_SESSION['flash_success'] = "Password reset link generated! Since email delivery is currently disabled/failing, you can use the link below to reset your password immediately:<br><br><a href='{$resetLink}' class='btn btn-sm btn-primary' style='display:inline-block; padding: 8px 16px; background:#0d6efd; color:#fff; text-decoration:none; border-radius:4px; margin-top:8px;'>Reset Password Now</a>";
+        } else {
+            $_SESSION['flash_success'] = "If that email is in our database, we have sent a password reset link to it.";
+        }
         $this->redirect('/auth/admin-login');
     }
 

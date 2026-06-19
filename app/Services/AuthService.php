@@ -174,7 +174,7 @@ class AuthService extends BaseModel {
     /**
      * Trigger a password reset request.
      */
-    public function forgotPassword(string $email): bool {
+    public function forgotPassword(string $email) {
         $user = $this->selectOne("SELECT id, email FROM users WHERE email = ? AND deleted_at IS NULL", [$email]);
         if (!$user) {
             return false; // Silence checks to prevent account enumeration checks? 
@@ -209,7 +209,7 @@ class AuthService extends BaseModel {
         $queue = new EmailQueue();
         $queue->enqueue($email, $name, "Reset Your Password - Team Incubation", $emailBody);
 
-        return true;
+        return $rawToken;
     }
 
     /**
