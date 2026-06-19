@@ -18,9 +18,9 @@
 
     .about-hero h2 {
         font-size: 2.75rem;
-        color: #fff;
+        color: var(--text-main);
         margin-bottom: 1rem;
-        background: linear-gradient(135deg, #fff 40%, var(--primary-hover));
+        background: linear-gradient(135deg, #0f172a 40%, var(--primary));
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
     }
@@ -49,7 +49,7 @@
 
     .about-text h3 {
         font-size: 1.75rem;
-        color: #fff;
+        color: var(--text-main);
         margin-bottom: 1.25rem;
     }
 
@@ -93,7 +93,7 @@
 
     .timeline-title {
         font-weight: 600;
-        color: #fff;
+        color: var(--text-main);
         font-size: 1.05rem;
         margin-bottom: 0.5rem;
     }

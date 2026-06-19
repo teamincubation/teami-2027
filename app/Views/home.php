@@ -24,7 +24,7 @@
         line-height: 1.15;
         letter-spacing: -0.03em;
         margin-bottom: 1.5rem;
-        background: linear-gradient(135deg, #fff 40%, var(--primary-hover));
+        background: linear-gradient(135deg, #0f172a 40%, var(--primary));
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
     }
@@ -54,7 +54,7 @@
     }
 
     .btn-secondary {
-        background: rgba(255, 255, 255, 0.05);
+        background: rgba(0, 0, 0, 0.04);
         color: var(--text-main);
         font-family: 'Outfit', sans-serif;
         font-weight: 600;
@@ -66,7 +66,7 @@
     }
 
     .btn-secondary:hover {
-        background: rgba(255, 255, 255, 0.1);
+        background: rgba(0, 0, 0, 0.08);
         border-color: var(--text-muted);
     }
 
@@ -78,7 +78,7 @@
     }
 
     .hero-card {
-        background: var(--bg-surface);
+        background: var(--bg-card);
         backdrop-filter: blur(16px);
         -webkit-backdrop-filter: blur(16px);
         border: 1px solid var(--border-glow);
@@ -86,7 +86,7 @@
         padding: 2.5rem;
         width: 100%;
         max-width: 440px;
-        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.05);
         position: relative;
         overflow: hidden;
     }
@@ -100,7 +100,7 @@
         height: 200%;
         background: conic-gradient(from 0deg at 50% 50%, transparent 60%, var(--primary) 90%, transparent 100%);
         animation: rotate 8s linear infinite;
-        opacity: 0.15;
+        opacity: 0.1;
         pointer-events: none;
         z-index: 0;
     }
@@ -138,7 +138,7 @@
 
     .hero-card-line {
         height: 8px;
-        background: rgba(255, 255, 255, 0.05);
+        background: rgba(0, 0, 0, 0.06);
         border-radius: 4px;
         margin-bottom: 1rem;
     }
@@ -155,11 +155,11 @@
         display: inline-flex;
         align-items: center;
         gap: 0.5rem;
-        background: rgba(16, 185, 129, 0.1);
+        background: rgba(5, 150, 105, 0.08);
         border: 1px solid var(--border-active);
         padding: 0.4rem 0.8rem;
         border-radius: 99px;
-        color: var(--primary-hover);
+        color: var(--primary);
         font-size: 0.825rem;
         font-weight: 600;
         margin-top: 1.5rem;
@@ -168,7 +168,7 @@
     /* Stats Section */
     .stats {
         padding: 4rem 2rem;
-        background: rgba(17, 24, 39, 0.5);
+        background: rgba(255, 255, 255, 0.5);
         border-top: 1px solid var(--border-glow);
         border-bottom: 1px solid var(--border-glow);
     }
@@ -224,7 +224,7 @@
     .section-header h2 {
         font-size: 2.5rem;
         margin-bottom: 1rem;
-        color: #fff;
+        color: var(--text-main);
     }
 
     .section-header p {
@@ -253,12 +253,13 @@
         border-radius: 16px;
         transition: var(--transition);
         position: relative;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
     }
 
     .feature-card:hover {
         transform: translateY(-5px);
         border-color: var(--border-active);
-        box-shadow: 0 10px 30px rgba(16, 185, 129, 0.05);
+        box-shadow: 0 10px 30px rgba(5, 150, 105, 0.05);
     }
 
     .feature-card i {
@@ -271,7 +272,7 @@
     .feature-card h3 {
         font-size: 1.35rem;
         margin-bottom: 1rem;
-        color: #fff;
+        color: var(--text-main);
     }
 
     .feature-card p {
@@ -299,7 +300,7 @@
                     <i class="fa-solid fa-graduation-cap"></i>
                 </div>
                 <div>
-                    <h4 style="font-size:1.15rem; color:#fff;">Digital Certificate</h4>
+                    <h4 style="font-size:1.15rem; color:var(--text-main);">Digital Certificate</h4>
                     <p style="font-size:0.8rem; color:var(--text-muted);">Verified Secure Registry</p>
                 </div>
             </div>

@@ -18,9 +18,9 @@
 
     .contact-hero h2 {
         font-size: 2.75rem;
-        color: #fff;
+        color: var(--text-main);
         margin-bottom: 1rem;
-        background: linear-gradient(135deg, #fff 40%, var(--primary-hover));
+        background: linear-gradient(135deg, #0f172a 40%, var(--primary));
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
     }
@@ -48,12 +48,12 @@
 
     .contact-info h3 {
         font-size: 1.75rem;
-        color: #fff;
+        color: var(--text-main);
         margin-bottom: 1.5rem;
     }
 
     .info-card {
-        background: var(--bg-surface);
+        background: var(--bg-card);
         border: 1px solid var(--border-glow);
         border-radius: 12px;
         padding: 1.5rem;
@@ -61,6 +61,7 @@
         align-items: center;
         gap: 1.25rem;
         margin-bottom: 1.5rem;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.02);
     }
 
     .info-icon {
@@ -77,7 +78,7 @@
     }
 
     .info-details h4 {
-        color: #fff;
+        color: var(--text-main);
         font-size: 1rem;
         margin-bottom: 0.25rem;
     }
@@ -88,17 +89,17 @@
     }
 
     .contact-form-box {
-        background: var(--bg-surface);
+        background: var(--bg-card);
         backdrop-filter: blur(16px);
         -webkit-backdrop-filter: blur(16px);
         border: 1px solid var(--border-glow);
         border-radius: 16px;
         padding: 2.5rem;
-        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.03);
     }
 
     .contact-form-box h3 {
-        color: #fff;
+        color: var(--text-main);
         font-size: 1.5rem;
         margin-bottom: 1.5rem;
         font-family: 'Outfit', sans-serif;
@@ -118,12 +119,12 @@
 
     .input-contact, .textarea-contact {
         width: 100%;
-        background: rgba(255, 255, 255, 0.02);
+        background: #ffffff;
         border: 1px solid var(--border-glow);
         border-radius: 8px;
         padding: 0.8rem 1rem;
         font-size: 0.95rem;
-        color: #fff;
+        color: var(--text-main);
         font-family: 'Inter', sans-serif;
         transition: var(--transition);
     }
@@ -131,7 +132,8 @@
     .input-contact:focus, .textarea-contact:focus {
         outline: none;
         border-color: var(--primary);
-        background: rgba(255, 255, 255, 0.05);
+        background: #ffffff;
+        box-shadow: 0 0 10px rgba(5, 150, 105, 0.1);
     }
 
     .textarea-contact {

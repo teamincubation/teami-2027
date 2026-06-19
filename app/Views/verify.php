@@ -18,7 +18,7 @@
         border: 1px solid var(--border-glow);
         border-radius: 16px;
         padding: 3rem;
-        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.04);
     }
 
     .verify-title {
@@ -28,7 +28,7 @@
 
     .verify-title h2 {
         font-size: 2.25rem;
-        color: #fff;
+        color: var(--text-main);
         margin-bottom: 0.5rem;
     }
 
@@ -51,12 +51,12 @@
 
     .input-verify {
         flex: 1;
-        background: rgba(255, 255, 255, 0.03);
+        background: #ffffff;
         border: 1px solid var(--border-glow);
         border-radius: 8px;
         padding: 0.85rem 1.25rem;
         font-size: 1rem;
-        color: #fff;
+        color: var(--text-main);
         font-family: 'Inter', sans-serif;
         transition: var(--transition);
     }
@@ -64,13 +64,13 @@
     .input-verify:focus {
         outline: none;
         border-color: var(--primary);
-        background: rgba(255, 255, 255, 0.06);
-        box-shadow: 0 0 10px rgba(16, 185, 129, 0.1);
+        background: #ffffff;
+        box-shadow: 0 0 10px rgba(5, 150, 105, 0.1);
     }
 
     .btn-verify {
         background: linear-gradient(135deg, var(--primary), var(--secondary));
-        color: #000;
+        color: #ffffff;
         font-family: 'Outfit', sans-serif;
         font-weight: 700;
         border: none;
@@ -80,16 +80,17 @@
         cursor: pointer;
         transition: var(--transition);
         white-space: nowrap;
+        box-shadow: 0 4px 12px rgba(5, 150, 105, 0.15);
     }
 
     .btn-verify:hover {
         transform: translateY(-1px);
         filter: brightness(1.1);
-        box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+        box-shadow: 0 4px 15px rgba(5, 150, 105, 0.3);
     }
 
     .sample-codes {
-        background: rgba(255, 255, 255, 0.02);
+        background: rgba(0, 0, 0, 0.02);
         border: 1px dashed var(--border-glow);
         border-radius: 8px;
         padding: 1rem;
@@ -100,7 +101,7 @@
 
     .sample-code-badge {
         display: inline-block;
-        background: rgba(255, 255, 255, 0.06);
+        background: rgba(0, 0, 0, 0.04);
         border: 1px solid var(--border-glow);
         padding: 0.2rem 0.6rem;
         border-radius: 4px;
@@ -114,18 +115,19 @@
     .sample-code-badge:hover {
         background: var(--primary-glow);
         border-color: var(--primary);
-        color: var(--primary-hover);
+        color: var(--primary);
     }
 
     /* Result Card */
     .result-card {
         margin-top: 3rem;
-        background: rgba(16, 185, 129, 0.03);
+        background: rgba(5, 150, 105, 0.02);
         border: 1px solid var(--border-active);
         border-radius: 12px;
         padding: 2.5rem;
         position: relative;
         overflow: hidden;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.01);
     }
 
     .result-card::before {
@@ -135,7 +137,7 @@
         right: 0;
         width: 100px;
         height: 100px;
-        background: linear-gradient(135deg, transparent 50%, rgba(16, 185, 129, 0.1) 50%);
+        background: linear-gradient(135deg, transparent 50%, rgba(5, 150, 105, 0.05) 50%);
         border-top-right-radius: 12px;
     }
 
@@ -159,8 +161,8 @@
         display: inline-flex;
         align-items: center;
         gap: 0.5rem;
-        background: rgba(16, 185, 129, 0.1);
-        color: var(--primary-hover);
+        background: rgba(5, 150, 105, 0.08);
+        color: var(--primary);
         padding: 0.5rem 1rem;
         border-radius: 99px;
         font-size: 0.85rem;
@@ -190,20 +192,20 @@
 
     .result-value {
         font-size: 1.05rem;
-        color: #fff;
+        color: var(--text-main);
         font-weight: 600;
     }
 
     .result-alert {
         margin-top: 3rem;
-        background: rgba(239, 68, 68, 0.05);
-        border: 1px solid rgba(239, 68, 68, 0.2);
+        background: rgba(239, 68, 68, 0.03);
+        border: 1px solid rgba(239, 68, 68, 0.15);
         border-radius: 12px;
         padding: 1.5rem 2rem;
         display: flex;
         align-items: center;
         gap: 1.25rem;
-        color: #fca5a5;
+        color: #991b1b;
     }
 
     .result-alert i {
@@ -239,7 +241,7 @@
                 <div class="result-card">
                     <div class="result-header">
                         <div>
-                            <h3 style="font-size: 1.5rem; color:#fff; font-family:'Outfit', sans-serif;"><?= htmlspecialchars($result['name']) ?></h3>
+                            <h3 style="font-size: 1.5rem; color:var(--text-main); font-family:'Outfit', sans-serif;"><?= htmlspecialchars($result['name']) ?></h3>
                             <p style="color: var(--primary); font-weight: 500; font-size: 0.95rem; margin-top: 0.25rem;">
                                 <i class="fa-solid fa-award" style="margin-right: 0.4rem;"></i><?= htmlspecialchars($result['type']) ?>
                             </p>

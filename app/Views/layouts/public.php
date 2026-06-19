@@ -13,19 +13,18 @@
     <!-- Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    <style>
         :root {
-            --bg-base: #0b0f19;
-            --bg-surface: rgba(17, 24, 39, 0.7);
-            --bg-card: rgba(31, 41, 55, 0.4);
-            --primary: #10b981;
-            --primary-glow: rgba(16, 185, 129, 0.15);
-            --primary-hover: #34d399;
-            --secondary: #06b6d4;
-            --text-main: #f3f4f6;
-            --text-muted: #9ca3af;
-            --border-glow: rgba(255, 255, 255, 0.08);
-            --border-active: rgba(16, 185, 129, 0.3);
+            --bg-base: #f8fafc;
+            --bg-surface: rgba(255, 255, 255, 0.85);
+            --bg-card: #ffffff;
+            --primary: #059669;
+            --primary-glow: rgba(5, 150, 105, 0.06);
+            --primary-hover: #10b981;
+            --secondary: #0891b2;
+            --text-main: #0f172a;
+            --text-muted: #475569;
+            --border-glow: rgba(0, 0, 0, 0.08);
+            --border-active: rgba(5, 150, 105, 0.2);
             --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
@@ -45,8 +44,8 @@
             display: flex;
             flex-direction: column;
             background-image: 
-                radial-gradient(at 0% 0%, rgba(16, 185, 129, 0.05) 0px, transparent 50%),
-                radial-gradient(at 100% 100%, rgba(6, 182, 212, 0.05) 0px, transparent 50%);
+                radial-gradient(at 0% 0%, rgba(5, 150, 105, 0.03) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(8, 145, 178, 0.03) 0px, transparent 50%);
         }
 
         h1, h2, h3, h4, h5, h6 {
@@ -59,10 +58,11 @@
             position: sticky;
             top: 0;
             z-index: 100;
-            background: rgba(11, 15, 25, 0.75);
+            background: rgba(255, 255, 255, 0.85);
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
             border-bottom: 1px solid var(--border-glow);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
             transition: var(--transition);
         }
 
@@ -121,7 +121,7 @@
 
         .nav-link:hover, .nav-link.active {
             color: var(--text-main);
-            background: rgba(255, 255, 255, 0.05);
+            background: rgba(0, 0, 0, 0.03);
         }
 
         .nav-link.active::after {
@@ -137,20 +137,20 @@
 
         .btn-cta {
             background: linear-gradient(135deg, var(--primary), var(--secondary));
-            color: #000;
+            color: #ffffff;
             font-family: 'Outfit', sans-serif;
             font-weight: 700;
             text-decoration: none;
             padding: 0.6rem 1.25rem;
             border-radius: 8px;
             font-size: 0.95rem;
-            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.2);
+            box-shadow: 0 4px 15px rgba(5, 150, 105, 0.2);
             transition: var(--transition);
         }
 
         .btn-cta:hover {
             transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4);
+            box-shadow: 0 6px 20px rgba(5, 150, 105, 0.35);
             filter: brightness(1.1);
         }
 
@@ -162,7 +162,7 @@
 
         /* Premium Footer */
         footer {
-            background-color: #070a12;
+            background-color: #f1f5f9;
             border-top: 1px solid var(--border-glow);
             padding: 4rem 2rem 2rem 2rem;
             margin-top: auto;
@@ -242,7 +242,7 @@
             align-items: center;
             width: 36px;
             height: 36px;
-            background: rgba(255, 255, 255, 0.05);
+            background: rgba(0, 0, 0, 0.03);
             color: var(--text-muted);
             border-radius: 50%;
             text-decoration: none;
@@ -252,7 +252,7 @@
 
         .social-icon:hover {
             background: var(--primary);
-            color: #000;
+            color: #ffffff;
             transform: scale(1.1);
         }
 
