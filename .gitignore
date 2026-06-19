@@ -1,0 +1,20 @@
+# Secrets and Environment configs
+.env
+
+# System logs, cache, temporary files
+logs/
+cache/
+tmp/
+temp/
+*.log
+
+# Composer dependencies
+# Note: If Hostinger deployment script does not support composer install automatically,
+# the developer can comment out the line below to commit the vendor folder directly to Git.
+vendor/
+
+# Operating System files
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Desktop.ini

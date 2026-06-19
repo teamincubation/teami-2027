@@ -1,0 +1,33 @@
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteBase /
+
+    # Enforce HTTPS redirection (Hostinger-compatible)
+    RewriteCond %{HTTPS} off
+    RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+    # Handle Front Controller rewriting
+    # If the request is a real file or directory, serve it directly
+    RewriteCond %{REQUEST_FILENAME} -f [OR]
+    RewriteCond %{REQUEST_FILENAME} -d
+    RewriteRule ^ - [L]
+
+    # Otherwise route everything to index.php
+    RewriteRule ^ index.php [L]
+</IfModule>
+
+# Security Options
+Options -Indexes
+
+# Disable server signature
+ServerSignature Off
+
+# Block access to VCS files, dotfiles, and backup extensions
+<FilesMatch "^\.">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
+<FilesMatch "\.(bak|config|sql|sql\.gz|zip|rar|env)$">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
