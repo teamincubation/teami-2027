@@ -122,9 +122,8 @@ class AuthController extends BaseController {
 
     public function forgotPasswordForm(): void {
         $this->render('admin/forgot-password', [
-            'title' => 'Forgot Password | Team Incubation',
-            'layout' => 'blank'
-        ]);
+            'title' => 'Forgot Password | Team Incubation'
+        ], 'blank');
     }
 
     public function sendResetLink(): void {
@@ -151,9 +150,8 @@ class AuthController extends BaseController {
 
         $this->render('admin/reset-password', [
             'title' => 'Reset Password | Team Incubation',
-            'layout' => 'blank',
             'token' => $token
-        ]);
+        ], 'blank');
     }
 
     public function updatePassword(): void {
