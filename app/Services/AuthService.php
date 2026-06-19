@@ -136,6 +136,7 @@ class AuthService extends BaseModel {
             
             $queue = new EmailQueue();
             $queue->enqueue($email, $fullName, "Verify Your Email - Team Incubation", $emailBody);
+            $queue->process();
 
             return ['success' => true, 'message' => 'Registration successful! Verification email sent.'];
         } catch (\Exception $e) {
@@ -208,6 +209,7 @@ class AuthService extends BaseModel {
 
         $queue = new EmailQueue();
         $queue->enqueue($email, $name, "Reset Your Password - Team Incubation", $emailBody);
+        $queue->process();
 
         return $rawToken;
     }

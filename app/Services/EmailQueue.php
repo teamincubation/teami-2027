@@ -58,14 +58,21 @@ class EmailQueue extends BaseModel {
             $mail = new PHPMailer(true);
 
             try {
-                // SMTP Server Settings
-                $mail->isSMTP();
-                $mail->Host       = $mailConfig['host'];
-                $mail->SMTPAuth   = $mailConfig['settings']['smtp_auth'];
-                $mail->Username   = $mailConfig['username'];
-                $mail->Password   = $mailConfig['password'];
-                $mail->SMTPSecure = $mailConfig['encryption'] === 'ssl' ? PHPMailer::ENCRYPTION_SMTPS : PHPMailer::ENCRYPTION_STARTTLS;
-                $mail->Port       = $mailConfig['port'];
+                $useSmtp = !(empty($mailConfig['password']) || $mailConfig['password'] === 'smtp_password_here');
+                
+                if ($useSmtp) {
+                    // SMTP Server Settings
+                    $mail->isSMTP();
+                    $mail->Host       = $mailConfig['host'];
+                    $mail->SMTPAuth   = $mailConfig['settings']['smtp_auth'];
+                    $mail->Username   = $mailConfig['username'];
+                    $mail->Password   = $mailConfig['password'];
+                    $mail->SMTPSecure = $mailConfig['encryption'] === 'ssl' ? PHPMailer::ENCRYPTION_SMTPS : PHPMailer::ENCRYPTION_STARTTLS;
+                    $mail->Port       = $mailConfig['port'];
+                } else {
+                    // Fallback to PHP native mail()
+                    $mail->isMail();
+                }
                 $mail->CharSet    = 'UTF-8';
 
                 // Recipients
@@ -83,8 +90,18 @@ class EmailQueue extends BaseModel {
                     $mail->AltBody = strip_tags($email['body_html']);
                 }
 
-                // Send email
-                $mail->send();
+                // Send email with automatic SMTP -> mail() fallback
+                try {
+                    $mail->send();
+                } catch (\Exception $e) {
+                    if ($useSmtp) {
+                        logMessage('WARNING', "SMTP failed, trying native PHP mail() fallback: " . $e->getMessage());
+                        $mail->isMail();
+                        $mail->send();
+                    } else {
+                        throw $e;
+                    }
+                }
 
                 // Update Status to Sent
                 $this->update(
