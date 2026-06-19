@@ -46,7 +46,7 @@ APP_URL=https://teamincubation.in
 
 # Database Settings
 DB_CONNECTION=mysql
-DB_HOST=127.0.0.1
+DB_HOST=localhost
 DB_PORT=3306
 DB_NAME=u806388046_new_teami2027
 DB_USER=u806388046_newteami2027
