@@ -9,7 +9,7 @@ class AuthMiddleware {
     public function handle(): bool {
         if (!is_auth()) {
             $_SESSION['flash_error'] = "Authentication required. Please sign in.";
-            redirect('/admin/login');
+            redirect('/auth/admin-login');
             return false;
         }
         return true;

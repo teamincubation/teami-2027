@@ -105,19 +105,19 @@
 </style>
 
 <div class="about-section">
-    <div class="about-hero">
+    <div class="about-hero" data-aos="fade-up">
         <h2>Our Journey & Impact</h2>
         <p>Over a decade of enabling community leadership, professional skills, and educational support across sectors.</p>
     </div>
     
     <div class="about-grid">
-        <div class="about-text">
+        <div class="about-text" data-aos="fade-right" data-aos-delay="150">
             <h3>Vision & Core Philosophy</h3>
             <p>At Team Incubation, we believe true leadership is forged through community service. Our platform bridges the gap between academic education and civic duties by involving candidates in social programs, engineering internships, and community development efforts.</p>
             <p>By empowering youth with both technical expertise and administrative capabilities, we nurture professionals who are socially aware, empathetic, and ready to contribute to a better society.</p>
         </div>
         
-        <div class="timeline">
+        <div class="timeline" data-aos="fade-left" data-aos-delay="300">
             <?php if (!empty($milestones)): ?>
                 <?php foreach ($milestones as $item): ?>
                     <div class="timeline-item">

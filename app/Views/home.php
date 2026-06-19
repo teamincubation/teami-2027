@@ -477,7 +477,7 @@
             </div>
         </div>
         
-        <div class="hero-visual">
+        <div class="hero-visual" data-aos="fade-left" data-aos-delay="200">
             <div class="hero-card">
                 <div class="hero-card-header">
                     <div class="hero-card-icon">
@@ -507,19 +507,19 @@
 <!-- Stats -->
 <section class="stats">
     <div class="stats-container">
-        <div class="stat-item">
+        <div class="stat-item" data-aos="fade-up" data-aos-delay="0">
             <div class="stat-number">10k+</div>
             <div class="stat-label">Students Guided</div>
         </div>
-        <div class="stat-item">
+        <div class="stat-item" data-aos="fade-up" data-aos-delay="100">
             <div class="stat-number">150+</div>
             <div class="stat-label">Social Campaigns</div>
         </div>
-        <div class="stat-item">
+        <div class="stat-item" data-aos="fade-up" data-aos-delay="200">
             <div class="stat-number">100%</div>
             <div class="stat-label">Verifiable Registry</div>
         </div>
-        <div class="stat-item">
+        <div class="stat-item" data-aos="fade-up" data-aos-delay="300">
             <div class="stat-number">11+</div>
             <div class="stat-label">Years of Action</div>
         </div>
@@ -528,25 +528,25 @@
 
 <!-- Programs -->
 <section class="features">
-    <div class="section-header">
+    <div class="section-header" data-aos="fade-up">
         <h2>Our Main Focus Areas</h2>
         <p>Discover how Team Incubation empowers candidates with the skills and volunteer experience required to excel in their career paths.</p>
     </div>
     
     <div class="feature-grid">
-        <div class="feature-card leadership">
+        <div class="feature-card leadership" data-aos="fade-up" data-aos-delay="0">
             <i class="fa-solid fa-people-group"></i>
             <h3>Leadership & Voluntarism</h3>
             <p>Engage in active social programs, field campaigns, and event coordination, developing empathy, delegation, and management skills.</p>
         </div>
         
-        <div class="feature-card internships">
+        <div class="feature-card internships" data-aos="fade-up" data-aos-delay="150">
             <i class="fa-solid fa-laptop-code"></i>
             <h3>Professional Internships</h3>
             <p>Work on real-world projects and build production-ready digital tools with mentorship from senior engineers and domain experts.</p>
         </div>
         
-        <div class="feature-card verification">
+        <div class="feature-card verification" data-aos="fade-up" data-aos-delay="300">
             <i class="fa-solid fa-circle-check"></i>
             <h3>Authentic Verification</h3>
             <p>A secure portal for corporate hiring managers, universities, and institutions to immediately verify certificate credentials and lookup student evaluations.</p>

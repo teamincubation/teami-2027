@@ -71,7 +71,7 @@ class AuthController extends BaseController {
 
         if (!empty($errors)) {
             $_SESSION['flash_errors'] = $errors;
-            $this->redirect('/admin/login');
+            $this->redirect('/auth/admin-login');
         }
 
         $ip = $_SERVER['REMOTE_ADDR'] ?? '0.0.0.0';
@@ -91,7 +91,7 @@ class AuthController extends BaseController {
 
         if ($failedAttempts >= 5) {
             $_SESSION['flash_errors'] = ["Too many failed login attempts. You are locked out for 15 minutes."];
-            $this->redirect('/admin/login');
+            $this->redirect('/auth/admin-login');
         }
 
         // 4. Authenticate
@@ -107,7 +107,7 @@ class AuthController extends BaseController {
             $stmtIns->execute([$ip, $email]);
 
             $_SESSION['flash_errors'] = ["Invalid email or password."];
-            $this->redirect('/admin/login');
+            $this->redirect('/auth/admin-login');
         }
     }
 
@@ -117,6 +117,6 @@ class AuthController extends BaseController {
     public function logout(): void {
         $this->authService->logout();
         $_SESSION['flash_success'] = "You have been logged out successfully.";
-        $this->redirect('/admin/login');
+        $this->redirect('/auth/admin-login');
     }
 }

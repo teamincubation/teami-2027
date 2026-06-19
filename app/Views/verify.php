@@ -215,7 +215,7 @@
 </style>
 
 <div class="verify-section">
-    <div class="verify-box">
+    <div class="verify-box" data-aos="fade-up">
         <div class="verify-title">
             <h2>Verify Certificate</h2>
             <p>Enter the certificate number to verify credentials from the central database.</p>
@@ -234,7 +234,7 @@
 
         <?php if ($searched): ?>
             <?php if ($result): ?>
-                <div class="result-card">
+                <div class="result-card" data-aos="zoom-in">
                     <div class="result-header">
                         <div>
                             <h3 style="font-size: 1.5rem; color:var(--text-main); font-family:'Outfit', sans-serif;"><?= htmlspecialchars($result['name']) ?></h3>

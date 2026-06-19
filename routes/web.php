@@ -13,9 +13,9 @@ $router->get('/verify', 'CertificateController@index');
 $router->post('/verify', 'CertificateController@verify');
 
 // Admin Auth Routes
-$router->get('/admin/login', 'Admin\AuthController@loginForm');
-$router->post('/admin/login', 'Admin\AuthController@login');
-$router->get('/admin/logout', 'Admin\AuthController@logout');
+$router->get('/auth/admin-login', 'Admin\AuthController@loginForm');
+$router->post('/auth/admin-login', 'Admin\AuthController@login');
+$router->get('/auth/admin-logout', 'Admin\AuthController@logout');
 
 // Protected Admin Routes
 $router->get('/admin/dashboard', 'Admin\DashboardController@index', [\App\Middleware\AuthMiddleware::class]);

@@ -38,7 +38,7 @@
         <?php endif; ?>
 
         <!-- Form -->
-        <form action="/admin/login" method="POST" autocomplete="off">
+        <form action="/auth/admin-login" method="POST" autocomplete="off">
             <?= csrf_field() ?>
 
             <!-- Email -->

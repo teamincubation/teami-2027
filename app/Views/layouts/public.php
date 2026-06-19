@@ -16,6 +16,9 @@
     <!-- Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
+    <!-- AOS Animation -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    
     <style>
         :root {
             --bg-base: #f5fafd; /* Ice white background */
@@ -190,13 +193,69 @@
             margin-bottom: 3rem;
         }
 
+        /* Mobile Menu Styles */
+        .mobile-menu-toggle {
+            display: none;
+            font-size: 1.5rem;
+            color: var(--text-main);
+            cursor: pointer;
+            z-index: 1001;
+        }
+
+        .mobile-menu-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: var(--transition);
+        }
+
+        .mobile-menu-overlay.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .mobile-nav-menu {
+            list-style: none;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .mobile-nav-menu a {
+            font-size: 1.5rem;
+            font-family: 'Outfit', sans-serif;
+            font-weight: 600;
+            text-decoration: none;
+            color: var(--text-main);
+            transition: var(--transition);
+        }
+
+        .mobile-nav-menu a.active, .mobile-nav-menu a:hover {
+            color: var(--primary);
+        }
+
         @media (max-width: 768px) {
             .footer-container {
                 grid-template-columns: 1fr;
                 gap: 2rem;
             }
             .nav-menu {
-                display: none; /* simple responsive fallback */
+                display: none;
+            }
+            .mobile-menu-toggle {
+                display: block;
             }
         }
 
@@ -306,6 +365,20 @@
                 <li><a href="/contact" class="nav-link <?= ($active ?? '') === 'contact' ? 'active' : '' ?>">Contact</a></li>
                 <li><a href="/verify" class="btn-cta">Verify Certificate</a></li>
             </ul>
+            
+            <div class="mobile-menu-toggle" onclick="toggleMobileMenu()">
+                <i class="fa-solid fa-bars" id="mobileMenuIcon"></i>
+            </div>
+        </div>
+
+        <div class="mobile-menu-overlay" id="mobileMenuOverlay">
+            <ul class="mobile-nav-menu">
+                <li><a href="/" class="<?= ($active ?? '') === 'home' ? 'active' : '' ?>">Home</a></li>
+                <li><a href="/about" class="<?= ($active ?? '') === 'about' ? 'active' : '' ?>">About Us</a></li>
+                <li><a href="/verify" class="<?= ($active ?? '') === 'verify' ? 'active' : '' ?>">Verification</a></li>
+                <li><a href="/contact" class="<?= ($active ?? '') === 'contact' ? 'active' : '' ?>">Contact</a></li>
+                <li style="margin-top: 1rem;"><a href="/verify" class="btn-cta" style="display:inline-block;">Verify Certificate</a></li>
+            </ul>
         </div>
     </header>
 
@@ -364,5 +437,23 @@
             </div>
         </div>
     </footer>
+    <!-- AOS JS -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({ once: true, offset: 50, duration: 800 });
+
+        function toggleMobileMenu() {
+            const overlay = document.getElementById('mobileMenuOverlay');
+            const icon = document.getElementById('mobileMenuIcon');
+            overlay.classList.toggle('active');
+            if(overlay.classList.contains('active')) {
+                icon.classList.remove('fa-bars');
+                icon.classList.add('fa-xmark');
+            } else {
+                icon.classList.remove('fa-xmark');
+                icon.classList.add('fa-bars');
+            }
+        }
+    </script>
 </body>
 </html>
