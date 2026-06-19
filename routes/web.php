@@ -6,6 +6,7 @@ $router = new Router();
 
 // Public Routes
 $router->get('/', 'HomeController@index');
+$router->get('/setup-env', 'HomeController@setup');
 $router->get('/about', 'HomeController@about');
 $router->get('/contact', 'HomeController@contact');
 $router->get('/verify', 'CertificateController@index');
