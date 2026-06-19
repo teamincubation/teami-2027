@@ -36,7 +36,40 @@ class HomeController extends BaseController {
     }
 
     public function setup(): void {
-        $envContent = <<<'ENV'
+        $host = 'localhost';
+        $db   = 'u806388046_new_teami2027';
+        $user = 'u806388046_newteami2027';
+
+        $passwordsToTry = [
+            'Teami@2027#Incroot$)',
+            'Teami@2027#Incroot$',
+            'Teami@2027#Incroot'
+        ];
+
+        $pdo = null;
+        $successfulPassword = null;
+        $errors = [];
+
+        foreach ($passwordsToTry as $pwd) {
+            try {
+                $pdo = new \PDO("mysql:host=$host;dbname=$db;charset=utf8mb4", $user, $pwd);
+                $pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
+                $successfulPassword = $pwd;
+                break;
+            } catch (\PDOException $e) {
+                $errors[$pwd] = $e->getMessage();
+            }
+        }
+
+        if (!$pdo) {
+            echo "<h3>❌ Database Connection Failed for all tried passwords:</h3>";
+            foreach ($errors as $pwd => $err) {
+                echo "<p><strong>Password:</strong> " . htmlspecialchars($pwd) . " <br><strong>Error:</strong> " . htmlspecialchars($err) . "</p>";
+            }
+            return;
+        }
+
+        $envContent = <<<ENV
 # App Configuration
 APP_NAME="Team Incubation"
 APP_ENV=production
@@ -50,7 +83,7 @@ DB_HOST=localhost
 DB_PORT=3306
 DB_NAME=u806388046_new_teami2027
 DB_USER=u806388046_newteami2027
-DB_PASS='Teami@2027#Incroot$)'
+DB_PASS='{$successfulPassword}'
 
 # Mail Configuration (Hostinger SMTP)
 MAIL_HOST=smtp.hostinger.com
@@ -66,14 +99,7 @@ ENV;
         file_put_contents($envPath, $envContent);
         echo "<h3>✅ .env file created successfully!</h3>";
 
-        $host = 'localhost';
-        $db   = 'u806388046_new_teami2027';
-        $user = 'u806388046_newteami2027';
-        $pass = 'Teami@2027#Incroot$)';
-
         try {
-            $pdo = new \PDO("mysql:host=$host;dbname=$db;charset=utf8mb4", $user, $pass);
-            $pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
             
             $schemaPath = dirname(dirname(__DIR__)) . '/database/schema.sql';
             if (file_exists($schemaPath)) {
