@@ -138,11 +138,18 @@ ENV;
                 echo "<h3>✅ Database schema imported successfully!</h3>";
             }
 
-            $sampleDataPath = dirname(dirname(__DIR__)) . '/database/sample-data.sql';
-            if (file_exists($sampleDataPath)) {
-                $sql = file_get_contents($sampleDataPath);
-                $pdo->exec($sql);
-                echo "<h3>✅ Sample data imported successfully!</h3>";
+            // Check if roles are already seeded to prevent duplicate key errors
+            $stmtRoles = $pdo->query("SELECT COUNT(*) FROM roles");
+            $roleCount = (int)$stmtRoles->fetchColumn();
+            if ($roleCount === 0) {
+                $sampleDataPath = dirname(dirname(__DIR__)) . '/database/sample-data.sql';
+                if (file_exists($sampleDataPath)) {
+                    $sql = file_get_contents($sampleDataPath);
+                    $pdo->exec($sql);
+                    echo "<h3>✅ Sample data imported successfully!</h3>";
+                }
+            } else {
+                echo "<h3>ℹ️ Sample data already imported.</h3>";
             }
 
             $stmt = $pdo->query("SELECT * FROM users WHERE email = 'incubation.ngo@gmail.com'");

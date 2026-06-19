@@ -69,11 +69,18 @@ ENV;
                         $success .= '✅ Database schema imported successfully.<br>';
                     }
                     
-                    $sampleDataPath = dirname(__DIR__) . '/database/sample-data.sql';
-                    if (file_exists($sampleDataPath)) {
-                        $sql = file_get_contents($sampleDataPath);
-                        $pdo->exec($sql);
-                        $success .= '✅ Sample data imported successfully.<br>';
+                    // Check if roles are already seeded to prevent duplicate key errors
+                    $stmtRoles = $pdo->query("SELECT COUNT(*) FROM roles");
+                    $roleCount = (int)$stmtRoles->fetchColumn();
+                    if ($roleCount === 0) {
+                        $sampleDataPath = dirname(__DIR__) . '/database/sample-data.sql';
+                        if (file_exists($sampleDataPath)) {
+                            $sql = file_get_contents($sampleDataPath);
+                            $pdo->exec($sql);
+                            $success .= '✅ Sample data imported successfully.<br>';
+                        }
+                    } else {
+                        $success .= 'ℹ️ Sample data already imported.<br>';
                     }
                     
                     // Admin user check
