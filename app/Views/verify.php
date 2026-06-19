@@ -218,7 +218,7 @@
     <div class="verify-box">
         <div class="verify-title">
             <h2>Verify Certificate</h2>
-            <p>Enter the student certificate code to verify credentials from the central database.</p>
+            <p>Enter the certificate number to verify credentials from the central database.</p>
         </div>
         
         <form method="POST" action="/verify">
@@ -230,11 +230,7 @@
             </div>
         </form>
         
-        <div class="sample-codes">
-            <span>Demo codes to test: </span>
-            <span class="sample-code-badge" onclick="fillCode('TI-2026-INT-101')">TI-2026-INT-101</span>
-            <span class="sample-code-badge" onclick="fillCode('TI-2026-VOL-202')">TI-2026-VOL-202</span>
-        </div>
+
 
         <?php if ($searched): ?>
             <?php if ($result): ?>
