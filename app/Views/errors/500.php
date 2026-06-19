@@ -63,12 +63,6 @@
         <div class="error-code">500</div>
         <h1>Internal Server Error</h1>
         <p>An unexpected error occurred on our server. The issue has been logged, and our team is looking into it. Please try again later.</p>
-        <?php if (isset($exception)): ?>
-            <div style="background: #fee2e2; border: 1px solid #ef4444; padding: 10px; text-align: left; font-size: 12px; font-family: monospace; overflow-wrap: break-word; margin-bottom: 20px;">
-                <strong>Error:</strong> <?= htmlspecialchars($exception->getMessage()) ?><br>
-                <strong>File:</strong> <?= htmlspecialchars($exception->getFile()) ?> : <?= $exception->getLine() ?>
-            </div>
-        <?php endif; ?>
         <a href="/" class="btn">Return to Homepage</a>
     </div>
 </body>
