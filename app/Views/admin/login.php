@@ -31,11 +31,30 @@
             <div style="background: var(--pastel-green); border: 1px solid #a7f3d0; color: #059669; padding: 1rem; border-radius: 8px; font-size: 0.9rem; margin-bottom: 1.5rem;">
                 <p style="display: flex; align-items: center; gap: 0.5rem; margin: 0;">
                     <i class="fa-solid fa-circle-check" style="font-size: 0.85rem;"></i>
-                    <?= htmlspecialchars($_SESSION['flash_success']) ?>
+                    <?= $_SESSION['flash_success'] ?>
                 </p>
             </div>
             <?php unset($_SESSION['flash_success']); ?>
         <?php endif; ?>
+
+        <!-- Google Login Button -->
+        <div style="margin-bottom: 1.5rem; text-align: center;">
+            <a href="/auth/google" style="display: flex; align-items: center; justify-content: center; gap: 0.75rem; width: 100%; padding: 0.75rem; border: 1px solid var(--border-glow); border-radius: 8px; font-family: 'Outfit', sans-serif; font-size: 0.95rem; font-weight: 700; color: var(--text-main); background: #ffffff; text-decoration: none; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05); transition: var(--transition); box-sizing: border-box;" onmouseover="this.style.backgroundColor='#f8f9fa'; this.style.borderColor='var(--primary)';" onmouseout="this.style.backgroundColor='#ffffff'; this.style.borderColor='var(--border-glow)';">
+                <svg width="18" height="18" viewBox="0 0 18 18" style="display: block;">
+                    <path fill="#4285F4" d="M17.64 9.2c0-.63-.06-1.25-.16-1.84H9v3.47h4.84c-.21 1.12-.84 2.07-1.79 2.7v2.24h2.91c1.7-1.56 2.68-3.86 2.68-6.57z"/>
+                    <path fill="#34A853" d="M9 18c2.43 0 4.47-.8 5.96-2.23l-2.91-2.24c-.8.54-1.84.87-3.05.87-2.35 0-4.33-1.59-5.04-3.73H.95v2.3A9 9 0 0 0 9 18z"/>
+                    <path fill="#FBBC05" d="M3.96 10.67A5.4 5.4 0 0 1 3.6 9c0-.58.1-1.15.28-1.67V5.03H.95A9 9 0 0 0 0 9c0 1.45.35 2.82.95 4.03l3.01-2.36z"/>
+                    <path fill="#EA4335" d="M9 3.58c1.32 0 2.5.45 3.44 1.35l2.58-2.58C13.47.8 11.43 0 9 0 5.48 0 2.44 2.03.95 5.03l3.01 2.36c.71-2.14 2.69-3.73 5.04-3.73z"/>
+                </svg>
+                Sign in with Google
+            </a>
+        </div>
+
+        <div style="display: flex; align-items: center; justify-content: center; gap: 1rem; margin-bottom: 1.5rem; color: var(--text-muted); font-size: 0.85rem;">
+            <div style="flex: 1; height: 1px; background: var(--border-glow);"></div>
+            <span>or login with credentials</span>
+            <div style="flex: 1; height: 1px; background: var(--border-glow);"></div>
+        </div>
 
         <!-- Form -->
         <form action="/auth/admin-login" method="POST" autocomplete="off">

@@ -189,4 +189,71 @@ class AuthController extends BaseController {
             $this->redirect('/auth/forgot-password');
         }
     }
+
+    public function googleRedirect(): void {
+        $googleAuth = new \App\Services\GoogleAuth();
+        $authUrl = $googleAuth->getAuthUrl();
+        $this->redirect($authUrl);
+    }
+
+    public function googleCallback(): void {
+        $code = $_GET['code'] ?? '';
+        if (empty($code)) {
+            $_SESSION['flash_errors'] = ["Google authentication failed: Authorization code missing."];
+            $this->redirect('/auth/admin-login');
+        }
+
+        $googleAuth = new \App\Services\GoogleAuth();
+        $userInfo = $googleAuth->getUserInfo($code);
+
+        if (!$userInfo || empty($userInfo['email'])) {
+            $_SESSION['flash_errors'] = ["Google authentication failed: Could not retrieve user profile."];
+            $this->redirect('/auth/admin-login');
+        }
+
+        $email = $userInfo['email'];
+
+        // Retrieve user and role name from users database
+        $db = BaseModel::getConnection();
+        $stmt = $db->prepare("
+            SELECT u.*, r.name as role_name 
+            FROM users u 
+            JOIN roles r ON u.role_id = r.id 
+            WHERE u.email = ? AND u.deleted_at IS NULL
+        ");
+        $stmt->execute([$email]);
+        $user = $stmt->fetch(\PDO::FETCH_ASSOC);
+
+        if (!$user) {
+            $_SESSION['flash_errors'] = ["Access denied. The Google account '{$email}' is not registered as an administrator."];
+            $this->redirect('/auth/admin-login');
+        }
+
+        if ($user['status'] === 'suspended') {
+            $_SESSION['flash_errors'] = ["Account suspended."];
+            $this->redirect('/auth/admin-login');
+        }
+
+        // If the user does not have a google_id stored yet, save it!
+        if (empty($user['google_id'])) {
+            $stmtUpdate = $db->prepare("UPDATE users SET google_id = ? WHERE id = ?");
+            $stmtUpdate->execute([$userInfo['google_id'], $user['id']]);
+        }
+
+        // Start authenticated session
+        $this->authService->startUserSession($user);
+
+        // Record audit trail log
+        $ip = $_SERVER['REMOTE_ADDR'] ?? '0.0.0.0';
+        $agent = $_SERVER['HTTP_USER_AGENT'] ?? 'Unknown';
+        
+        $stmtLog = $db->prepare("
+            INSERT INTO audit_logs (user_id, action, details, ip_address, user_agent) 
+            VALUES (?, 'GOOGLE_LOGIN', 'User logged in successfully via Google OAuth.', ?, ?)
+        ");
+        $stmtLog->execute([$user['id'], $ip, substr($agent, 0, 255)]);
+
+        // Redirect to dashboard
+        $this->redirect('/admin/dashboard');
+    }
 }

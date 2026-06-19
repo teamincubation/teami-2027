@@ -16,6 +16,8 @@ $router->post('/verify', 'CertificateController@verify');
 $router->get('/auth/admin-login', 'Admin\AuthController@loginForm');
 $router->post('/auth/admin-login', 'Admin\AuthController@login');
 $router->get('/auth/admin-logout', 'Admin\AuthController@logout');
+$router->get('/auth/google', 'Admin\AuthController@googleRedirect');
+$router->get('/auth/google/callback', 'Admin\AuthController@googleCallback');
 $router->get('/auth/forgot-password', 'Admin\AuthController@forgotPasswordForm');
 $router->post('/auth/forgot-password', 'Admin\AuthController@sendResetLink');
 $router->get('/reset-password', 'Admin\AuthController@resetPasswordForm');
