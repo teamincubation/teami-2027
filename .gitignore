@@ -11,7 +11,7 @@ temp/
 # Composer dependencies
 # Note: If Hostinger deployment script does not support composer install automatically,
 # the developer can comment out the line below to commit the vendor folder directly to Git.
-vendor/
+# vendor/
 
 # Operating System files
 .DS_Store
