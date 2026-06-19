@@ -89,6 +89,16 @@ ENV;
                 echo "<h3>✅ Sample data imported successfully!</h3>";
             }
 
+            $stmt = $pdo->query("SELECT * FROM users LIMIT 1");
+            $userRow = $stmt->fetch(\PDO::FETCH_ASSOC);
+            if (!$userRow) {
+                $password = 'Admin@123';
+                $hash = password_hash($password, PASSWORD_BCRYPT);
+                $stmtIns = $pdo->prepare("INSERT INTO users (role_id, prefix, first_name, last_name, mobile, email, password_hash, account_status) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+                $stmtIns->execute([1, 'Mr.', 'Super', 'Admin', '9876543210', 'admin@teamincubation.in', $hash, 'active']);
+                echo "<h3>✅ Default Admin Account Generated!</h3>";
+            }
+
             echo "<h3>🚀 Setup Complete! You can now visit the homepage.</h3>";
 
         } catch (\PDOException $e) {
