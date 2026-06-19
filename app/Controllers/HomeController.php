@@ -150,8 +150,12 @@ ENV;
             if (!$userRow) {
                 $password = 'Admin@123';
                 $hash = password_hash($password, PASSWORD_BCRYPT);
-                $stmtIns = $pdo->prepare("INSERT INTO users (role_id, prefix, first_name, last_name, mobile, email, password_hash, account_status) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
-                $stmtIns->execute([1, 'Mr.', 'Super', 'Admin', '9876543210', 'incubation.ngo@gmail.com', $hash, 'active']);
+                $stmtIns = $pdo->prepare("INSERT INTO users (email, password_hash, role_id, status, email_verified_at) VALUES (?, ?, 1, 'active', CURRENT_TIMESTAMP)");
+                $stmtIns->execute(['incubation.ngo@gmail.com', $hash]);
+                $userId = $pdo->lastInsertId();
+
+                $stmtProf = $pdo->prepare("INSERT INTO profiles (user_id, full_name, mobile) VALUES (?, ?, ?)");
+                $stmtProf->execute([$userId, 'Super Administrator', '9876543210']);
                 echo "<h3>✅ Admin Account Generated: incubation.ngo@gmail.com</h3>";
             }
 
