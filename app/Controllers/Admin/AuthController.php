@@ -119,4 +119,71 @@ class AuthController extends BaseController {
         $_SESSION['flash_success'] = "You have been logged out successfully.";
         $this->redirect('/auth/admin-login');
     }
+
+    public function forgotPasswordForm(): void {
+        $this->render('admin/forgot-password', [
+            'title' => 'Forgot Password | Team Incubation',
+            'layout' => 'blank'
+        ]);
+    }
+
+    public function sendResetLink(): void {
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') return;
+        
+        $email = trim($_POST['email'] ?? '');
+        if (empty($email)) {
+            $_SESSION['flash_errors'] = ["Email is required."];
+            $this->redirect('/auth/forgot-password');
+        }
+
+        $this->authService->forgotPassword($email);
+        
+        $_SESSION['flash_success'] = "If that email is in our database, we have sent a password reset link to it.";
+        $this->redirect('/auth/admin-login');
+    }
+
+    public function resetPasswordForm(): void {
+        $token = $_GET['token'] ?? '';
+        if (empty($token)) {
+            $_SESSION['flash_errors'] = ["Invalid or missing reset token."];
+            $this->redirect('/auth/admin-login');
+        }
+
+        $this->render('admin/reset-password', [
+            'title' => 'Reset Password | Team Incubation',
+            'layout' => 'blank',
+            'token' => $token
+        ]);
+    }
+
+    public function updatePassword(): void {
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') return;
+        
+        $token = $_POST['token'] ?? '';
+        $password = $_POST['password'] ?? '';
+        $confirm = $_POST['password_confirm'] ?? '';
+
+        if (empty($token) || empty($password) || empty($confirm)) {
+            $_SESSION['flash_errors'] = ["All fields are required."];
+            $this->redirect('/reset-password?token=' . urlencode($token));
+        }
+
+        if ($password !== $confirm) {
+            $_SESSION['flash_errors'] = ["Passwords do not match."];
+            $this->redirect('/reset-password?token=' . urlencode($token));
+        }
+
+        if (strlen($password) < 8) {
+            $_SESSION['flash_errors'] = ["Password must be at least 8 characters long."];
+            $this->redirect('/reset-password?token=' . urlencode($token));
+        }
+
+        if ($this->authService->resetPassword($token, $password)) {
+            $_SESSION['flash_success'] = "Password has been reset successfully. You can now log in.";
+            $this->redirect('/auth/admin-login');
+        } else {
+            $_SESSION['flash_errors'] = ["The reset link is invalid or has expired."];
+            $this->redirect('/auth/forgot-password');
+        }
+    }
 }

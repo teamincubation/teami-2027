@@ -16,6 +16,10 @@ $router->post('/verify', 'CertificateController@verify');
 $router->get('/auth/admin-login', 'Admin\AuthController@loginForm');
 $router->post('/auth/admin-login', 'Admin\AuthController@login');
 $router->get('/auth/admin-logout', 'Admin\AuthController@logout');
+$router->get('/auth/forgot-password', 'Admin\AuthController@forgotPasswordForm');
+$router->post('/auth/forgot-password', 'Admin\AuthController@sendResetLink');
+$router->get('/reset-password', 'Admin\AuthController@resetPasswordForm');
+$router->post('/reset-password', 'Admin\AuthController@updatePassword');
 
 // Protected Admin Routes
 $router->get('/admin/dashboard', 'Admin\DashboardController@index', [\App\Middleware\AuthMiddleware::class]);

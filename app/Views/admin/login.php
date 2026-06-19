@@ -58,6 +58,10 @@
                     <input type="password" id="password" name="password" required placeholder="••••••••" style="width: 100%; padding: 0.75rem 1rem 0.75rem 2.5rem; border: 1px solid var(--border-glow); border-radius: 8px; font-family: 'Inter', sans-serif; font-size: 0.95rem; color: var(--text-main); outline: none; background-color: #fafbfc; transition: var(--transition);">
                 </div>
             </div>
+            
+            <div style="text-align: right; margin-bottom: 1.5rem;">
+                <a href="/auth/forgot-password" style="font-size: 0.85rem; color: var(--primary); text-decoration: none; font-weight: 500;">Forgot Password?</a>
+            </div>
 
             <!-- Math CAPTCHA Security Check -->
             <div style="margin-bottom: 1.5rem; background: var(--pastel-teal); padding: 1rem; border-radius: 8px; border: 1px solid rgba(38, 181, 209, 0.15);">
