@@ -25,6 +25,9 @@
         "sort-packages": true,
         "allow-plugins": {
             "chillerlan/composer-settings-plugin": true
+        },
+        "platform": {
+            "php": "8.2.0"
         }
     }
 }
