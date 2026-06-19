@@ -50,7 +50,7 @@ DB_HOST=localhost
 DB_PORT=3306
 DB_NAME=u806388046_new_teami2027
 DB_USER=u806388046_newteami2027
-DB_PASS="Teami@2027#Incroot$)"
+DB_PASS='Teami@2027#Incroot$)'
 
 # Mail Configuration (Hostinger SMTP)
 MAIL_HOST=smtp.hostinger.com
@@ -66,7 +66,7 @@ ENV;
         file_put_contents($envPath, $envContent);
         echo "<h3>✅ .env file created successfully!</h3>";
 
-        $host = '127.0.0.1';
+        $host = 'localhost';
         $db   = 'u806388046_new_teami2027';
         $user = 'u806388046_newteami2027';
         $pass = 'Teami@2027#Incroot$)';
