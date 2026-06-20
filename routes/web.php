@@ -11,6 +11,11 @@ $router->get('/about', 'HomeController@about');
 $router->get('/contact', 'HomeController@contact');
 $router->get('/verify', 'CertificateController@index');
 $router->post('/verify', 'CertificateController@verify');
+$router->get('/projects', 'HomeController@projects');
+$router->get('/projects/{slug}', 'HomeController@projectDetails');
+$router->get('/gallery', 'HomeController@gallery');
+$router->get('/admin/logout', 'Admin\AuthController@logout');
+$router->get('/logout', 'Admin\AuthController@logout');
 
 // Admin Auth Routes
 $router->get('/auth/admin-login', 'Admin\AuthController@loginForm');
@@ -49,6 +54,14 @@ $router->post('/admin/projects/create', 'Admin\ProjectController@store', [\App\M
 $router->get('/admin/projects/edit/{id}', 'Admin\ProjectController@edit', [\App\Middleware\AuthMiddleware::class]);
 $router->post('/admin/projects/edit/{id}', 'Admin\ProjectController@update', [\App\Middleware\AuthMiddleware::class]);
 $router->post('/admin/projects/delete/{id}', 'Admin\ProjectController@delete', [\App\Middleware\AuthMiddleware::class]);
+
+// Gallery CRUD Routes
+$router->get('/admin/gallery', 'Admin\GalleryController@index', [\App\Middleware\AuthMiddleware::class]);
+$router->get('/admin/gallery/create', 'Admin\GalleryController@create', [\App\Middleware\AuthMiddleware::class]);
+$router->post('/admin/gallery/create', 'Admin\GalleryController@store', [\App\Middleware\AuthMiddleware::class]);
+$router->get('/admin/gallery/edit/{id}', 'Admin\GalleryController@edit', [\App\Middleware\AuthMiddleware::class]);
+$router->post('/admin/gallery/edit/{id}', 'Admin\GalleryController@update', [\App\Middleware\AuthMiddleware::class]);
+$router->post('/admin/gallery/delete/{id}', 'Admin\GalleryController@delete', [\App\Middleware\AuthMiddleware::class]);
 
 // Events CRUD Routes
 $router->get('/admin/events', 'Admin\EventController@index', [\App\Middleware\AuthMiddleware::class]);

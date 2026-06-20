@@ -172,4 +172,58 @@ ENV;
             echo "<h3>❌ Database Error: " . htmlspecialchars($e->getMessage()) . "</h3>";
         }
     }
+
+    /**
+     * Public page listing all NGO projects.
+     */
+    public function projects(): void {
+        $db = \App\Models\BaseModel::getConnection();
+        $stmt = $db->query("SELECT * FROM projects WHERE deleted_at IS NULL ORDER BY status = 'active' DESC, created_at DESC");
+        $projects = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+
+        $this->render('projects/index', [
+            'title' => 'Our Projects | Team Incubation',
+            'projects' => $projects,
+            'active' => 'projects'
+        ]);
+    }
+
+    /**
+     * Public page detailing a single project by its slug.
+     */
+    public function projectDetails(string $slug): void {
+        $db = \App\Models\BaseModel::getConnection();
+        $stmt = $db->prepare("SELECT * FROM projects WHERE slug = ? AND deleted_at IS NULL");
+        $stmt->execute([$slug]);
+        $project = $stmt->fetch(\PDO::FETCH_ASSOC);
+
+        if (!$project) {
+            http_response_code(404);
+            $this->render('errors/404', [
+                'title' => 'Project Not Found | Team Incubation'
+            ]);
+            return;
+        }
+
+        $this->render('projects/detail', [
+            'title' => htmlspecialchars($project['name']) . ' | Projects',
+            'project' => $project,
+            'active' => 'projects'
+        ]);
+    }
+
+    /**
+     * Public photo gallery page.
+     */
+    public function gallery(): void {
+        $db = \App\Models\BaseModel::getConnection();
+        $stmt = $db->query("SELECT * FROM gallery WHERE active = 1 ORDER BY display_order ASC, created_at DESC");
+        $photos = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+
+        $this->render('gallery/index', [
+            'title' => 'Photo Gallery | Team Incubation',
+            'photos' => $photos,
+            'active' => 'gallery'
+        ]);
+    }
 }

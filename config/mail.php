@@ -7,7 +7,7 @@ return [
     'username' => $_ENV['MAIL_USER'] ?? '',
     'password' => $_ENV['MAIL_PASS'] ?? '',
     'from' => [
-        'address' => $_ENV['MAIL_FROM_ADDRESS'] ?? 'info@teamincubation.in',
+        'address' => $_ENV['MAIL_FROM_ADDRESS'] ?? 'office@teamincubation.in',
         'name' => $_ENV['MAIL_FROM_NAME'] ?? 'Team Incubation',
     ],
     'settings' => [

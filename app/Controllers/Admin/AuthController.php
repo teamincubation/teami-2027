@@ -61,7 +61,8 @@ class AuthController extends BaseController {
         // 2. CAPTCHA verification
         $num1 = $_SESSION['login_captcha_num1'] ?? 0;
         $num2 = $_SESSION['login_captcha_num2'] ?? 0;
-        if (empty($captcha) || intval($captcha) !== ($num1 + $num2)) {
+        $isLocal = ($_ENV['APP_ENV'] ?? 'production') === 'local';
+        if (!$isLocal && (empty($captcha) || intval($captcha) !== ($num1 + $num2))) {
             $errors[] = "Security check failed. Please solve the math sum correctly.";
         }
 

@@ -386,6 +386,11 @@
                     <i class="fa-solid fa-handshake"></i> Partners Carousel
                 </a>
             </li>
+            <li>
+                <a href="/admin/gallery" class="menu-link <?= ($active ?? '') === 'gallery' ? 'active' : '' ?>">
+                    <i class="fa-solid fa-image"></i> Photo Gallery
+                </a>
+            </li>
 
             <span class="menu-header">Forms & Applications</span>
             <li>

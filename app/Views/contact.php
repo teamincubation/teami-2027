@@ -158,7 +158,17 @@
                 </div>
                 <div class="info-details">
                     <h4>Email Address</h4>
-                    <p>info@teamincubation.in</p>
+                    <p><a href="mailto:office@teamincubation.in" style="color: inherit; text-decoration: none;">office@teamincubation.in</a></p>
+                </div>
+            </div>
+
+            <div class="info-card">
+                <div class="info-icon">
+                    <i class="fa-solid fa-phone"></i>
+                </div>
+                <div class="info-details">
+                    <h4>Call Us</h4>
+                    <p><a href="tel:+917306198102" style="color: inherit; text-decoration: none;">+91 73061 98102</a></p>
                 </div>
             </div>
             

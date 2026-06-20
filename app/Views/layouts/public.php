@@ -349,6 +349,66 @@
         .footer-bottom a:hover {
             color: var(--primary);
         }
+
+        /* WhatsApp Floating Widget */
+        .whatsapp-widget {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #25d366;
+            color: #ffffff;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            box-shadow: 0 4px 15px rgba(37, 211, 102, 0.4);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+        .whatsapp-widget i {
+            font-size: 32px;
+        }
+        .whatsapp-widget:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 20px rgba(37, 211, 102, 0.6);
+            background-color: #20ba5a;
+        }
+        /* Pulse Effect */
+        .whatsapp-widget::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-color: #25d366;
+            border-radius: 50%;
+            z-index: -1;
+            animation: whatsapp-pulse 2s infinite;
+        }
+        @keyframes whatsapp-pulse {
+            0% {
+                transform: scale(1);
+                opacity: 0.5;
+            }
+            100% {
+                transform: scale(1.6);
+                opacity: 0;
+            }
+        }
+        @media (max-width: 768px) {
+            .whatsapp-widget {
+                bottom: 20px;
+                right: 20px;
+                width: 50px;
+                height: 50px;
+            }
+            .whatsapp-widget i {
+                font-size: 26px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -361,7 +421,8 @@
             <ul class="nav-menu">
                 <li><a href="/" class="nav-link <?= ($active ?? '') === 'home' ? 'active' : '' ?>">Home</a></li>
                 <li><a href="/about" class="nav-link <?= ($active ?? '') === 'about' ? 'active' : '' ?>">About Us</a></li>
-                <li><a href="/verify" class="nav-link <?= ($active ?? '') === 'verify' ? 'active' : '' ?>">Verification</a></li>
+                <li><a href="/projects" class="nav-link <?= ($active ?? '') === 'projects' ? 'active' : '' ?>">Projects</a></li>
+                <li><a href="/gallery" class="nav-link <?= ($active ?? '') === 'gallery' ? 'active' : '' ?>">Gallery</a></li>
                 <li><a href="/contact" class="nav-link <?= ($active ?? '') === 'contact' ? 'active' : '' ?>">Contact</a></li>
                 <li><a href="/verify" class="btn-cta">Verify Certificate</a></li>
             </ul>
@@ -375,7 +436,8 @@
             <ul class="mobile-nav-menu">
                 <li><a href="/" class="<?= ($active ?? '') === 'home' ? 'active' : '' ?>">Home</a></li>
                 <li><a href="/about" class="<?= ($active ?? '') === 'about' ? 'active' : '' ?>">About Us</a></li>
-                <li><a href="/verify" class="<?= ($active ?? '') === 'verify' ? 'active' : '' ?>">Verification</a></li>
+                <li><a href="/projects" class="<?= ($active ?? '') === 'projects' ? 'active' : '' ?>">Projects</a></li>
+                <li><a href="/gallery" class="<?= ($active ?? '') === 'gallery' ? 'active' : '' ?>">Gallery</a></li>
                 <li><a href="/contact" class="<?= ($active ?? '') === 'contact' ? 'active' : '' ?>">Contact</a></li>
                 <li style="margin-top: 1rem;"><a href="/verify" class="btn-cta" style="display:inline-block;">Verify Certificate</a></li>
             </ul>
@@ -411,17 +473,20 @@
             </div>
 
             <div class="footer-links">
-                <h4>Verification</h4>
+                <h4>Explore</h4>
                 <ul>
-                    <li><a href="/verify">Verify Certificates</a></li>
-                    <li><a href="/verify">Internship Lookup</a></li>
+                    <li><a href="/projects">Our Projects</a></li>
+                    <li><a href="/gallery">Photo Gallery</a></li>
                 </ul>
             </div>
 
             <div class="footer-links">
                 <h4>Contact Us</h4>
                 <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 0.75rem;">
-                    <i class="fa-solid fa-envelope" style="color: var(--primary); margin-right: 0.5rem;"></i> info@teamincubation.in
+                    <i class="fa-solid fa-envelope" style="color: var(--primary); margin-right: 0.5rem;"></i> <a href="mailto:office@teamincubation.in" style="color: inherit; text-decoration: none;">office@teamincubation.in</a>
+                </p>
+                <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 0.75rem;">
+                    <i class="fa-solid fa-phone" style="color: var(--primary); margin-right: 0.5rem;"></i> <a href="tel:+917306198102" style="color: inherit; text-decoration: none;">+91 73061 98102</a>
                 </p>
                 <p style="color: var(--text-muted); font-size: 0.95rem;">
                     <i class="fa-solid fa-location-dot" style="color: var(--primary); margin-right: 0.5rem;"></i> Calicut, Kerala, India
@@ -437,6 +502,12 @@
             </div>
         </div>
     </footer>
+    
+    <!-- Floating WhatsApp Widget -->
+    <a href="https://wa.me/917306198102?text=Hello%20Team%20Incubation%2C%20I%20have%20a%20query%20regarding" class="whatsapp-widget" target="_blank" rel="noopener noreferrer" title="Chat with us on WhatsApp">
+        <i class="fa-brands fa-whatsapp"></i>
+    </a>
+
     <!-- AOS JS -->
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
